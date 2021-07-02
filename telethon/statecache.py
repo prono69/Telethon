@@ -11,15 +11,15 @@ _has_channel_id = []
 def _fill():
     for name in dir(types):
         update = getattr(types, name)
-        if getattr(update, 'SUBCLASS_OF_ID', None) == 0x9f89304e:
+        if getattr(update, "SUBCLASS_OF_ID", None) == 0x9F89304E:
             cid = update.CONSTRUCTOR_ID
             sig = inspect.signature(update.__init__)
             for param in sig.parameters.values():
-                if param.name == 'channel_id' and param.annotation == int:
+                if param.name == "channel_id" and param.annotation == int:
                     _has_channel_id.append(cid)
 
     if not _has_channel_id:
-        raise RuntimeError('FIXME: Did the init signature or updates change?')
+        raise RuntimeError("FIXME: Did the init signature or updates change?")
 
 
 # We use a function to avoid cluttering the globals (with name/update/cid/doc)
@@ -30,6 +30,7 @@ class StateCache:
     """
     In-memory update state cache, defaultdict-like behaviour.
     """
+
     def __init__(self, initial, loggers):
         # We only care about the pts and the date. By using a tuple which
         # is lightweight and immutable we can easily copy them around to
@@ -46,11 +47,13 @@ class StateCache:
 
     # TODO Call this when receiving responses too...?
     def update(
-            self,
-            update,
-            *,
-            channel_id=None,
-            has_pts=frozenset(x.CONSTRUCTOR_ID for x in (
+        self,
+        update,
+        *,
+        channel_id=None,
+        has_pts=frozenset(
+            x.CONSTRUCTOR_ID
+            for x in (
                 types.UpdateNewMessage,
                 types.UpdateDeleteMessages,
                 types.UpdateReadHistoryInbox,
@@ -62,9 +65,12 @@ class StateCache:
                 types.updates.DifferenceTooLong,
                 types.UpdateShortMessage,
                 types.UpdateShortChatMessage,
-                types.UpdateShortSentMessage
-            )),
-            has_date=frozenset(x.CONSTRUCTOR_ID for x in (
+                types.UpdateShortSentMessage,
+            )
+        ),
+        has_date=frozenset(
+            x.CONSTRUCTOR_ID
+            for x in (
                 types.UpdateUserPhoto,
                 types.UpdateEncryption,
                 types.UpdateEncryptedMessagesRead,
@@ -76,8 +82,11 @@ class StateCache:
                 types.UpdatesCombined,
                 types.Updates,
                 types.UpdateShortSentMessage,
-            )),
-            has_channel_pts=frozenset(x.CONSTRUCTOR_ID for x in (
+            )
+        ),
+        has_channel_pts=frozenset(
+            x.CONSTRUCTOR_ID
+            for x in (
                 types.UpdateChannelTooLong,
                 types.UpdateNewChannelMessage,
                 types.UpdateDeleteChannelMessages,
@@ -85,9 +94,10 @@ class StateCache:
                 types.UpdateChannelWebPage,
                 types.updates.ChannelDifferenceEmpty,
                 types.updates.ChannelDifferenceTooLong,
-                types.updates.ChannelDifference
-            )),
-            check_only=False
+                types.updates.ChannelDifference,
+            )
+        ),
+        check_only=False
     ):
         """
         Update the state with the given update.
@@ -109,20 +119,19 @@ class StateCache:
                 channel_id = self.get_channel_id(update)
 
             if channel_id is None:
-                self._logger.info(
-                    'Failed to retrieve channel_id from %s', update)
+                self._logger.info("Failed to retrieve channel_id from %s", update)
             else:
                 self.__dict__[channel_id] = update.pts
 
     def get_channel_id(
-            self,
-            update,
-            has_channel_id=frozenset(_has_channel_id),
-            # Hardcoded because only some with message are for channels
-            has_message=frozenset(x.CONSTRUCTOR_ID for x in (
-                types.UpdateNewChannelMessage,
-                types.UpdateEditChannelMessage
-            ))
+        self,
+        update,
+        has_channel_id=frozenset(_has_channel_id),
+        # Hardcoded because only some with message are for channels
+        has_message=frozenset(
+            x.CONSTRUCTOR_ID
+            for x in (types.UpdateNewChannelMessage, types.UpdateEditChannelMessage)
+        ),
     ):
         """
         Gets the **unmarked** channel ID from this update, if it has any.
@@ -138,7 +147,7 @@ class StateCache:
                 # Telegram sometimes sends empty messages to give a newer pts:
                 # UpdateNewChannelMessage(message=MessageEmpty(id), pts=pts, pts_count=1)
                 # Not sure why, but it's safe to ignore them.
-                self._logger.debug('Update has None peer_id %s', update)
+                self._logger.debug("Update has None peer_id %s", update)
             else:
                 return update.message.peer_id.channel_id
 

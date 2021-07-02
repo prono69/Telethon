@@ -2,7 +2,6 @@ from .. import types, functions
 from ... import password as pwd_mod
 from ...errors import BotResponseTimeoutError
 import webbrowser
-import os
 
 
 class MessageButton:
@@ -108,9 +107,10 @@ class MessageButton:
             except BotResponseTimeoutError:
                 return None
         elif isinstance(self.button, types.KeyboardButtonSwitchInline):
-            return await self._client(functions.messages.StartBotRequest(
-                bot=self._bot, peer=self._chat, start_param=self.button.query
-            ))
+            return await self._client.inline_query(
+                self._bot, query=self.button.query,
+                entity=self._chat if self.button.same_peer else None
+            )
         elif isinstance(self.button, types.KeyboardButtonUrl):
             return webbrowser.open(self.button.url)
         elif isinstance(self.button, types.KeyboardButtonGame):
