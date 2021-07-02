@@ -8,6 +8,9 @@
 *.session
 /usermedia/
 
+# for me
+.replit
+
 # Builds and testing
 __pycache__/
 /dist/
