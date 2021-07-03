@@ -79,6 +79,7 @@ class InlineBuilder:
         *,
         url=None,
         thumb=None,
+        type="article",
         content=None,
         id=None,
         text=None,
@@ -141,7 +142,7 @@ class InlineBuilder:
         # voice, document, location, venue, contact, game
         result = types.InputBotInlineResult(
             id=id or "",
-            type="article",
+            type=type,
             send_message=await self._message(
                 text=text,
                 parse_mode=parse_mode,
