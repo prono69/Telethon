@@ -22,6 +22,7 @@ class MessageButton:
         button (:tl:`KeyboardButton`):
             The original :tl:`KeyboardButton` object.
     """
+
     def __init__(self, client, original, chat, bot, msg_id):
         self.button = original
         self._bot = bot
@@ -92,15 +93,18 @@ class MessageButton:
         """
         if isinstance(self.button, types.KeyboardButton):
             return await self._client.send_message(
-                self._chat, self.button.text, parse_mode=None)
+                self._chat, self.button.text, parse_mode=None
+            )
         elif isinstance(self.button, types.KeyboardButtonCallback):
             if password is not None:
                 pwd = await self._client(functions.account.GetPasswordRequest())
                 password = pwd_mod.compute_check(pwd, password)
 
             req = functions.messages.GetBotCallbackAnswerRequest(
-                peer=self._chat, msg_id=self._msg_id, data=self.button.data,
-                password=password
+                peer=self._chat,
+                msg_id=self._msg_id,
+                data=self.button.data,
+                password=password,
             )
             try:
                 return await self._client(req)
@@ -108,8 +112,9 @@ class MessageButton:
                 return None
         elif isinstance(self.button, types.KeyboardButtonSwitchInline):
             return await self._client.inline_query(
-                self._bot, query=self.button.query,
-                entity=self._chat if self.button.same_peer else None
+                self._bot,
+                query=self.button.query,
+                entity=self._chat if self.button.same_peer else None,
             )
         elif isinstance(self.button, types.KeyboardButtonUrl):
             return webbrowser.open(self.button.url)
@@ -123,24 +128,30 @@ class MessageButton:
                 return None
         elif isinstance(self.button, types.KeyboardButtonRequestPhone):
             if not share_phone:
-                raise ValueError('cannot click on phone buttons unless share_phone=True')
+                raise ValueError(
+                    "cannot click on phone buttons unless share_phone=True"
+                )
 
             if share_phone == True or isinstance(share_phone, str):
                 me = await self._client.get_me()
                 share_phone = types.InputMediaContact(
                     phone_number=me.phone if share_phone == True else share_phone,
-                    first_name=me.first_name or '',
-                    last_name=me.last_name or '',
-                    vcard=''
+                    first_name=me.first_name or "",
+                    last_name=me.last_name or "",
+                    vcard="",
                 )
 
             return await self._client.send_file(self._chat, share_phone)
         elif isinstance(self.button, types.KeyboardButtonRequestGeoLocation):
             if not share_geo:
-                raise ValueError('cannot click on geo buttons unless share_geo=(longitude, latitude)')
+                raise ValueError(
+                    "cannot click on geo buttons unless share_geo=(longitude, latitude)"
+                )
 
             if isinstance(share_geo, (tuple, list)):
                 long, lat = share_geo
-                share_geo = types.InputMediaGeoPoint(types.InputGeoPoint(lat=lat, long=long))
+                share_geo = types.InputMediaGeoPoint(
+                    types.InputGeoPoint(lat=lat, long=long)
+                )
 
             return await self._client.send_file(self._chat, share_geo)

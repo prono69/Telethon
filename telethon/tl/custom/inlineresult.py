@@ -13,21 +13,22 @@ class InlineResult:
         result (:tl:`BotInlineResult`):
             The original :tl:`BotInlineResult` object.
     """
+
     # tdlib types are the following (InlineQueriesManager::answer_inline_query @ 1a4a834):
     # gif, article, audio, contact, file, geo, photo, sticker, venue, video, voice
     #
     # However, those documented in https://core.telegram.org/bots/api#inline-mode are different.
-    ARTICLE = 'article'
-    PHOTO = 'photo'
-    GIF = 'gif'
-    VIDEO = 'video'
-    VIDEO_GIF = 'mpeg4_gif'
-    AUDIO = 'audio'
-    DOCUMENT = 'document'
-    LOCATION = 'location'
-    VENUE = 'venue'
-    CONTACT = 'contact'
-    GAME = 'game'
+    ARTICLE = "article"
+    PHOTO = "photo"
+    GIF = "gif"
+    VIDEO = "video"
+    VIDEO_GIF = "mpeg4_gif"
+    AUDIO = "audio"
+    DOCUMENT = "document"
+    LOCATION = "location"
+    VENUE = "venue"
+    CONTACT = "contact"
+    GAME = "game"
 
     def __init__(self, client, original, query_id=None, *, entity=None):
         self._client = client
@@ -102,8 +103,14 @@ class InlineResult:
         elif isinstance(self.result, types.BotInlineMediaResult):
             return self.result.document
 
-    async def click(self, entity=None, reply_to=None,
-                    silent=False, clear_draft=False, hide_via=False):
+    async def click(
+        self,
+        entity=None,
+        reply_to=None,
+        silent=False,
+        clear_draft=False,
+        hide_via=False,
+    ):
         """
         Clicks this result and sends the associated `message`.
 
@@ -123,7 +130,7 @@ class InlineResult:
             clear_draft (`bool`, optional):
                 Whether the draft should be removed after sending the
                 message from this result or not. Defaults to `False`.
-            
+
             hide_via (`bool`, optional):
                 Whether the "via @bot" should be hidden or not.
                 Only works with certain bots (like @bing or @gif).
@@ -133,7 +140,9 @@ class InlineResult:
         elif self._entity:
             entity = self._entity
         else:
-            raise ValueError('You must provide the entity where the result should be sent to')
+            raise ValueError(
+                "You must provide the entity where the result should be sent to"
+            )
 
         reply_id = None if reply_to is None else utils.get_message_id(reply_to)
         req = functions.messages.SendInlineBotResultRequest(
@@ -143,10 +152,9 @@ class InlineResult:
             silent=silent,
             clear_draft=clear_draft,
             hide_via=hide_via,
-            reply_to_msg_id=reply_id
+            reply_to_msg_id=reply_id,
         )
-        return self._client._get_response_message(
-            req, await self._client(req), entity)
+        return self._client._get_response_message(req, await self._client(req), entity)
 
     async def download_media(self, *args, **kwargs):
         """
@@ -158,4 +166,5 @@ class InlineResult:
         """
         if self.document or self.photo:
             return await self._client.download_media(
-                self.document or self.photo, *args, **kwargs)
+                self.document or self.photo, *args, **kwargs
+            )
