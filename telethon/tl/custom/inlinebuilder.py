@@ -89,7 +89,7 @@ class InlineBuilder:
         period=60,
         contact=None,
         game=False,
-        buttons=None
+        buttons=None,
         include_media=False,
     ):
         """
