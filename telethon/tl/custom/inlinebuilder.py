@@ -346,26 +346,6 @@ class InlineBuilder:
             if type is None:
                 type = "file"
 
-        if isinstance(file, types.InputWebDocument):
-            return types.InputBotInlineResult(
-                id=id or "",
-                type=type,
-                send_message=await self._message(
-                    text=text or "",
-                    parse_mode=parse_mode,
-                    link_preview=link_preview,
-                    media=include_media,
-                    geo=geo,
-                    period=period,
-                    contact=contact,
-                    game=game,
-                    buttons=buttons,
-                ),
-                title=title,
-                description=description,
-                thumb=file,
-                content=file,
-            )
         try:
             fh = utils.get_input_document(file)
         except TypeError:
