@@ -90,6 +90,7 @@ class InlineBuilder:
         contact=None,
         game=False,
         buttons=None
+        include_media=False,
     ):
         """
         Creates new inline result of article type.
@@ -147,6 +148,7 @@ class InlineBuilder:
                 text=text,
                 parse_mode=parse_mode,
                 link_preview=link_preview,
+                media=include_media,
                 geo=geo,
                 period=period,
                 contact=contact,
