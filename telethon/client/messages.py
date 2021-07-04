@@ -1165,6 +1165,7 @@ class MessageMethods:
 
         if formatting_entities is None:
             text, formatting_entities = await self._parse_message_text(text, parse_mode)
+
         file_handle, media, image = await self._file_to_media(
             file,
             supports_streaming=supports_streaming,
@@ -1174,6 +1175,9 @@ class MessageMethods:
         )
 
         if isinstance(entity, types.InputBotInlineMessageID):
+            msgmedia = await client(functions.messages.UploadMediaRequest(types.InputPeerSelf(), media)
+            media = utils.get_input_media(msgmedia)
+
             request = functions.messages.EditInlineBotMessageRequest(
                 id=entity,
                 message=text,
