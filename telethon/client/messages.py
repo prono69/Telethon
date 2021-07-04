@@ -1175,7 +1175,7 @@ class MessageMethods:
         )
 
         if isinstance(entity, types.InputBotInlineMessageID):
-            msgmedia = await client(functions.messages.UploadMediaRequest(types.InputPeerSelf(), media))
+            msgmedia = await self(functions.messages.UploadMediaRequest(types.InputPeerSelf(), media))
             media = utils.get_input_media(msgmedia)
 
             request = functions.messages.EditInlineBotMessageRequest(
