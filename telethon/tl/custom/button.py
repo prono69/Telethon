@@ -52,6 +52,7 @@ class Button:
         return isinstance(
             button,
             (
+                types.KeyboardButtonBuy,
                 types.KeyboardButtonCallback,
                 types.KeyboardButtonSwitchInline,
                 types.KeyboardButtonUrl,
@@ -166,6 +167,13 @@ class Button:
             request_write_access=write_access,
             fwd_text=fwd_text,
         )
+
+    @staticmethod
+    def buy(text, *):
+        """
+        Create a inline button to Buy a Product.
+        """
+        return types.KeyboardButtonBuy(text)
 
     @classmethod
     def text(cls, text, *, resize=None, single_use=None, selective=None):
