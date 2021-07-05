@@ -169,7 +169,7 @@ class Button:
         )
 
     @staticmethod
-    def buy(text, *):
+    def buy(text):
         """
         Create a inline button to Buy a Product.
         """
