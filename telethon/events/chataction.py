@@ -94,8 +94,7 @@ class ChatAction(EventBuilder):
                 return cls.Event(msg, users=msg.from_id, new_photo=True)
             elif isinstance(action, types.MessageActionPinMessage) and msg.reply_to:
                 return cls.Event(msg, pin_ids=[msg.reply_to_msg_id])
-            if isinstance(msg, types.MessageService):
-              return cls.Event(msg)
+            return cls.Event(msg)
 
     class Event(EventCommon):
         """
