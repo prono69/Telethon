@@ -113,6 +113,13 @@ class InlineBuilder:
                 The content to be shown for this result.
                 For now it has to be a :tl:`InputWebDocument` if present.
 
+            type (`str`, optional):
+                type of the content to use. Defaults to `article`.
+
+            include_media (`bool`, optional):
+                Whether the content used to display the result should be
+                included in the message itself or not. Defaults to `False`.
+
         Example:
             .. code-block:: python
 
