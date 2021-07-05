@@ -172,6 +172,11 @@ class Button:
     def buy(text):
         """
         Create a inline button to Buy a Product.
+
+        It can be only used with Invoice.
+        It should be the first button of the Invoice. 
+        On Not using this, Telegram will Automatically add button to it.
+        Read More - https://core.telegram.org/api/payments
         """
         return types.KeyboardButtonBuy(text)
 
