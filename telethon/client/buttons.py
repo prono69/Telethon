@@ -57,6 +57,7 @@ class ButtonMethods:
         resize = None
         single_use = None
         selective = None
+        placeholder = None
 
         rows = []
         for row in buttons:
@@ -69,6 +70,9 @@ class ButtonMethods:
                         single_use = button.single_use
                     if button.selective is not None:
                         selective = button.selective
+
+                    if isinstance(button, custom.Button.force_reply):
+                        placeholder = button.placeholder
 
                     button = button.button
                 elif isinstance(button, custom.MessageButton):
@@ -93,5 +97,6 @@ class ButtonMethods:
             return types.ReplyInlineMarkup(rows)
         # elif is_normal:
         return types.ReplyKeyboardMarkup(
-            rows, resize=resize, single_use=single_use, selective=selective
+            rows, resize=resize, single_use=single_use, selective=selective,
+            placeholder=placeholder
         )
