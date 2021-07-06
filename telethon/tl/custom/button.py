@@ -285,9 +285,12 @@ class Button:
         return types.ReplyKeyboardHide()
 
     @staticmethod
-    def force_reply():
+    def force_reply(single_use=None, selective=None, placeholder=None):
         """
         Forces a reply to the message with this markup. If used,
         no other button should be present or it will be ignored.
         """
-        return types.ReplyKeyboardForceReply()
+        return types.ReplyKeyboardForceReply(
+            single_use=single_use,
+            selective=selective,
+            placeholder=placeholder)
