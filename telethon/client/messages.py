@@ -1195,7 +1195,7 @@ class MessageMethods:
                         return await self._call(sender, request)
                     except FilePart0MissingError:
                         media = await self(functions.messages.UploadMediaRequest(types.InputPeerSelf(), media))
-                        return await self.edit_message(entity, message, text=text, file=media)
+                        return await self.edit_message(entity,None,text=text, file=media)
                 finally:
                     await self._return_exported_sender(sender)
             else:
