@@ -6,6 +6,7 @@ import warnings
 from .. import helpers, utils, errors, hints
 from ..requestiter import RequestIter
 from ..tl import types, functions
+from telethon.errors.rpcerrorlist import FilePart0MissingError
 
 _MAX_CHUNK_SIZE = 100
 
@@ -1190,7 +1191,11 @@ class MessageMethods:
             if exported:
                 try:
                     sender = await self._borrow_exported_sender(entity.dc_id)
-                    return await self._call(sender, request)
+                    try:
+                        return await self._call(sender, request)
+                    except FilePart0MissingError:
+                        media = await self(functions.messages.UploadMediaRequest(types.InputPeerSelf(), media))
+                        return await self.edit_message(entity, message, text=text, file=media)
                 finally:
                     await self._return_exported_sender(sender)
             else:
