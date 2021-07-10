@@ -8,7 +8,6 @@ from ..requestiter import RequestIter
 from ..tl import types, functions
 from telethon.errors.rpcerrorlist import FilePart0MissingError
 
-
 _MAX_CHUNK_SIZE = 100
 
 if typing.TYPE_CHECKING:
@@ -610,6 +609,7 @@ class MessageMethods:
             clear_draft: bool = False,
             buttons: 'hints.MarkupLike' = None,
             silent: bool = None,
+            background: bool = None,
             supports_streaming: bool = False,
             schedule: 'hints.DateLike' = None,
             comment_to: 'typing.Union[int, types.Message]' = None
@@ -703,6 +703,9 @@ class MessageMethods:
                 channel or not. Defaults to `False`, which means it will
                 notify them. Set it to `True` to alter this behaviour.
 
+            background (`bool`, optional):
+                Whether the message should be send in background.
+
             supports_streaming (`bool`, optional):
                 Whether the sent video supports streaming or not. Note that
                 Telegram only recognizes as streamable some formats like MP4,
@@ -790,7 +793,7 @@ class MessageMethods:
                 buttons=buttons, clear_draft=clear_draft, silent=silent,
                 schedule=schedule, supports_streaming=supports_streaming,
                 formatting_entities=formatting_entities,
-                comment_to=comment_to
+                comment_to=comment_to, background=background
             )
 
         entity = await self.get_input_entity(entity)
@@ -813,6 +816,7 @@ class MessageMethods:
                     message.media,
                     caption=message.message,
                     silent=silent,
+                    background=background,
                     reply_to=reply_to,
                     buttons=markup,
                     formatting_entities=message.entities,
@@ -823,6 +827,7 @@ class MessageMethods:
                 peer=entity,
                 message=message.message or '',
                 silent=silent,
+                background=background,
                 reply_to_msg_id=utils.get_message_id(reply_to),
                 reply_markup=markup,
                 entities=message.entities,
@@ -848,6 +853,7 @@ class MessageMethods:
                 reply_to_msg_id=utils.get_message_id(reply_to),
                 clear_draft=clear_draft,
                 silent=silent,
+                background=background,
                 reply_markup=self.build_reply_markup(buttons),
                 schedule_date=schedule
             )
@@ -1165,6 +1171,7 @@ class MessageMethods:
                             buttons=buttons, supports_streaming=supports_streaming, attributes=attributes,
                             force_document=force_document, schedule=schedule, link_preview=link_preview)
 
+                    return await self._call(sender, request)
                 finally:
                     await self._return_exported_sender(sender)
             else:
