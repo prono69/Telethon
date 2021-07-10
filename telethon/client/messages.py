@@ -876,6 +876,8 @@ class MessageMethods:
             messages: 'typing.Union[hints.MessageIDLike, typing.Sequence[hints.MessageIDLike]]',
             from_peer: 'hints.EntityLike' = None,
             *,
+            background: bool = None,
+            with_my_score: bool = None,
             silent: bool = None,
             as_album: bool = None,
             schedule: 'hints.DateLike' = None
@@ -907,6 +909,12 @@ class MessageMethods:
                 Defaults to `False` (send with a notification sound unless
                 the person has the chat muted). Set it to `True` to alter
                 this behaviour.
+
+            background (`bool`, optional):
+                Whether the message should be forwarded in background.
+
+            with_my_score (`bool`, optional):
+                Whether forwarded should contain your game score.
 
             as_album (`bool`, optional):
                 This flag no longer has any effect.
@@ -982,6 +990,8 @@ class MessageMethods:
                 id=chunk,
                 to_peer=entity,
                 silent=silent,
+                background=background,
+                with_my_score=with_my_score,
                 schedule_date=schedule
             )
             result = await self(req)
