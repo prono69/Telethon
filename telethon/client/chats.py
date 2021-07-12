@@ -164,6 +164,10 @@ class _ParticipantsIter(RequestIter):
             for participant in full.full_chat.participants.participants:
                 if isinstance(participant, types.ChannelParticipantBanned):
                     user_id = participant.peer.user_id
+                elif isinstance(participant, types.PeerChannel):
+                    user_id = participant.channel_id
+                elif isinstance(participant, types.PeerChat):
+                    user_id = participant.chat_id
                 else:
                     user_id = participant.user_id
                 user = users[user_id]
@@ -231,8 +235,14 @@ class _ParticipantsIter(RequestIter):
             self.requests[i].offset += len(participants.participants)
             users = {user.id: user for user in participants.users}
             for participant in participants.participants:
-                user_id = participant.user_id
-                user = users[user_id]
+                if isinstance(participant, types.ChannelParticipantBanned):
+                    user_id = participant.peer.user_id
+                elif isinstance(participant, types.PeerChannel):
+                    user_id = participant.channel_id
+                elif isinstance(participant, types.PeerChat):
+                    user_id = participant.chat_id
+                else:
+                    user_id = participant.user_id
                 if not self.filter_entity(user) or user.id in self.seen:
                     continue
                 self.seen.add(user_id)
