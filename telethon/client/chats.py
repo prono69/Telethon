@@ -231,12 +231,7 @@ class _ParticipantsIter(RequestIter):
             self.requests[i].offset += len(participants.participants)
             users = {user.id: user for user in participants.users}
             for participant in participants.participants:
-
-                if isinstance(participant, types.ChannelParticipantBanned):
-                    user_id = participant.peer.user_id
-                else:
-                    user_id = participant.user_id
-
+                user_id = participant.user_id
                 user = users[user_id]
                 if not self.filter_entity(user) or user.id in self.seen:
                     continue
