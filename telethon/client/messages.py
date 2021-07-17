@@ -604,6 +604,7 @@ class MessageMethods:
             formatting_entities: typing.Optional[typing.List[types.TypeMessageEntity]] = None,
             link_preview: bool = True,
             file: 'typing.Union[hints.FileLike, typing.Sequence[hints.FileLike]]' = None,
+            album: bool = False,
             thumb: 'hints.FileLike' = None,
             force_document: bool = False,
             clear_draft: bool = False,
@@ -793,7 +794,7 @@ class MessageMethods:
                 buttons=buttons, clear_draft=clear_draft, silent=silent,
                 schedule=schedule, supports_streaming=supports_streaming,
                 formatting_entities=formatting_entities,
-                comment_to=comment_to, background=background
+                comment_to=comment_to, background=background, album=album
             )
 
         entity = await self.get_input_entity(entity)
