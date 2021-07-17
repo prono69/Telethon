@@ -163,19 +163,16 @@ class _ParticipantsIter(RequestIter):
             users = {user.id: user for user in full.users}
             for participant in full.full_chat.participants.participants:
                 if isinstance(participant, types.ChannelParticipantBanned):
-                    peer = participant.peer
-                    if not isinstance(peer, types.PeerChannel):
-                        user_id = peer.user_id
+                    user_id = participant.peer.user_id
                 else:
                     user_id = participant.user_id
-                if not hasattr(participant, 'peer') and isinstance(participant.peer, types.PeerChannel):
-                    user = users[user_id]
-                    if not self.filter_entity(user):
-                        continue
+                user = users[user_id]
+                if not self.filter_entity(user):
+                    continue
 
-                    user = users[user_id]
-                    user.participant = participant
-                    self.buffer.append(user)
+                user = users[user_id]
+                user.participant = participant
+                self.buffer.append(user)
 
             return True
         else:
@@ -236,19 +233,17 @@ class _ParticipantsIter(RequestIter):
             for participant in participants.participants:
 
                 if isinstance(participant, types.ChannelParticipantBanned):
-                    peer = participant.peer
-                    if not isinstance(peer, types.PeerChannel):
-                        user_id = peer.user_id
+                    user_id = participant.peer.user_id
                 else:
                     user_id = participant.user_id
-                if not hasattr(participant, 'peer') and isinstance(participant.peer, types.PeerChannel):
-                    user = users[user_id]
-                    if not self.filter_entity(user):
-                        continue
 
-                    user = users[user_id]
-                    user.participant = participant
-                    self.buffer.append(user)
+                user = users[user_id]
+                if not self.filter_entity(user) or user.id in self.seen:
+                    continue
+                self.seen.add(user_id)
+                user = users[user_id]
+                user.participant = participant
+                self.buffer.append(user)
 
 
 class _AdminLogIter(RequestIter):
