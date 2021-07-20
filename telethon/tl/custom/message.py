@@ -713,7 +713,7 @@ class Message(ChatGetter, SenderGetter, TLObject):
         if self.client._bot:
             if self.chat.username:
                 return f"https://t.me/{self.chat.username}/{self.id}"
-            return f"https://t.me/{self.chat.id}/{self.id}"
+            return f"https://t.me/c/{self.chat.id}/{self.id}"
         return (await self.client(functions.channels.ExportMessageLinkRequest(self.chat_id, self.id))).link
 
     async def get_reply_message(self):
