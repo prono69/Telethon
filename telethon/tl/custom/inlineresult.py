@@ -148,7 +148,7 @@ class InlineResult:
         reply_id = None if reply_to is None else utils.get_message_id(reply_to)
 
         if comment_to:
-            entity, reply_id = await self._get_comment_data(entity, comment_to)
+            entity, reply_id = await self._client._get_comment_data(entity, comment_to)
 
         req = functions.messages.SendInlineBotResultRequest(
             peer=entity,
