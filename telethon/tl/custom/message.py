@@ -668,6 +668,12 @@ class Message(ChatGetter, SenderGetter, TLObject):
 
     # region Public Methods
 
+    @property
+    def message_link(self):
+        if self.chat.username:
+            return f"https://t.me/{self.chat.username}/{self.id}"
+        return f"https://t.me/c/{self.chat.id}/{self.id}"
+
     def get_entities_text(self, cls=None):
         """
         Returns a list of ``(markup entity, inner text)``
@@ -708,13 +714,6 @@ class Message(ChatGetter, SenderGetter, TLObject):
         texts = utils.get_inner_text(self.message, ent)
         return list(zip(ent, texts))
 
-    async def get_link(self):
-        """ Message Link"""
-        if self.client._bot:
-            if self.chat.username:
-                return f"https://t.me/{self.chat.username}/{self.id}"
-            return f"https://t.me/c/{self.chat.id}/{self.id}"
-        return (await self.client(functions.channels.ExportMessageLinkRequest(self.chat_id, self.id))).link
 
     async def get_reply_message(self):
         """
