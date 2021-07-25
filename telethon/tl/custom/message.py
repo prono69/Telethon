@@ -664,12 +664,16 @@ class Message(ChatGetter, SenderGetter, TLObject):
 
         return self.peer_id
 
+    # noinspection PyIncorrectDocstring
+
     @property
     def message_link(self):
+        """ message link """
         if self.chat.username:
-            return f"https://t.me/{self.chat.username}/{self.id}"
-        return f"https://t.me/c/{self.chat.id}/{self.id}"
-
+            out=f"https://t.me/{self.chat.username}/{self.id}"
+        else:
+            out=f"https://t.me/c/{self.chat.id}/{self.id}"
+        return out
 
     # endregion Public Properties
 
