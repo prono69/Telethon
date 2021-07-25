@@ -664,15 +664,16 @@ class Message(ChatGetter, SenderGetter, TLObject):
 
         return self.peer_id
 
-    # endregion Public Properties
-
-    # region Public Methods
-
     @property
     def message_link(self):
         if self.chat.username:
             return f"https://t.me/{self.chat.username}/{self.id}"
         return f"https://t.me/c/{self.chat.id}/{self.id}"
+
+
+    # endregion Public Properties
+
+    # region Public Methods
 
     def get_entities_text(self, cls=None):
         """
