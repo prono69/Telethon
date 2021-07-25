@@ -94,7 +94,9 @@ class ChatAction(EventBuilder):
                 return cls.Event(msg, users=msg.from_id, new_photo=True)
             elif isinstance(action, types.MessageActionPinMessage) and msg.reply_to:
                 return cls.Event(msg, pin_ids=[msg.reply_to_msg_id])
-            return cls.Event(msg)
+            elif isinstance(action, types.MessageActionGroupCall):
+                return cls.Event(msg, users=msg.from_id, group_call_update=action)
+            return cls.Event(msg, users=msg.from_id)
 
     class Event(EventCommon):
         """
@@ -146,6 +148,7 @@ class ChatAction(EventBuilder):
             new_title=None,
             pin_ids=None,
             pin=None,
+            group_call_update=None
         ):
             if isinstance(where, types.MessageService):
                 self.action_message = where
@@ -164,6 +167,7 @@ class ChatAction(EventBuilder):
             self.new_photo = new_photo is not None
             self.photo = new_photo if isinstance(new_photo, types.Photo) else None
 
+            self.group_call = group_call_update
             self._added_by = None
             self._kicked_by = None
             self.user_added = (
