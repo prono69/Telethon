@@ -5,6 +5,7 @@ from .sendergetter import SenderGetter
 from .messagebutton import MessageButton
 from .forward import Forward
 from .file import File
+from .inlineresult import InlineResult
 from .. import TLObject, types, functions, alltlobjects
 from ... import utils, errors
 
@@ -755,8 +756,12 @@ class Message(ChatGetter, SenderGetter, TLObject):
         with ``entity`` already set.
         """
         if self._client:
+            chat = await self.get_input_chat()
+            message = kwargs.get('message', None)
+            if isinstance(message, InlineResult):
+                return await message.click(chat)
             return await self._client.send_message(
-                await self.get_input_chat(), *args, **kwargs)
+                chat, *args, **kwargs)
 
     async def reply(self, *args, **kwargs):
         """
@@ -766,8 +771,12 @@ class Message(ChatGetter, SenderGetter, TLObject):
         """
         if self._client:
             kwargs['reply_to'] = self.id
+            chat = await self.get_input_chat()
+            message = kwargs.get('message', None)
+            if isinstance(message, InlineResult):
+                return await message.click(chat, reply_to=self.id)
             return await self._client.send_message(
-                await self.get_input_chat(), *args, **kwargs)
+                chat, *args, **kwargs)
 
     async def forward_to(self, *args, **kwargs):
         """
