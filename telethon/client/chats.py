@@ -404,6 +404,9 @@ class ChatMethods:
 
     # region Public methods
 
+    async def join_chat(self, chat):
+        return await self(functions.channels.JoinChannelRequest(chat))
+
     def iter_participants(
             self: 'TelegramClient',
             entity: 'hints.EntityLike',
