@@ -116,6 +116,12 @@ class Dialog:
         # or it would raise `PEER_ID_INVALID`).
         await self._client.delete_dialog(self.entity, revoke=revoke)
 
+    async def pin(self):
+        return await self._client(functions.channels.ToggleDialogPinRequest(self.input_entity, pinned=True))
+
+    async def unpin(self):
+        return await self._client(functions.channels.ToggleDialogPinRequest(self.input_entity, pinned=False))
+
     async def archive(self, folder=1):
         """
         Archives (or un-archives) this dialog.
