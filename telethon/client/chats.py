@@ -405,6 +405,9 @@ class ChatMethods:
     # region Public methods
 
     async def join_chat(self, chat):
+        """
+        Join Channel/chat
+        """
         return await self(functions.channels.JoinChannelRequest(chat))
 
     def iter_participants(
