@@ -618,6 +618,7 @@ class MessageMethods:
             background: bool = None,
             supports_streaming: bool = False,
             schedule: 'hints.DateLike' = None,
+            scheduled_ids: list = None,
             comment_to: 'typing.Union[int, types.Message]' = None
     ) -> 'types.Message':
         """
@@ -843,6 +844,8 @@ class MessageMethods:
                 schedule_date=schedule
             )
             message = message.message
+        elif scheduled_ids:
+            request = functions.messages.SendScheduledMessagesRequest(entity, scheduled_ids)
         else:
             if formatting_entities is None:
                 message, formatting_entities = await self._parse_message_text(message, parse_mode)
