@@ -20,7 +20,8 @@ class _MessagesIter(RequestIter):
     """
     async def _init(
             self, entity, offset_id, min_id, max_id,
-            from_user, offset_date, add_offset, filter, search, reply_to
+            from_user, offset_date, add_offset, filter, search, reply_to,
+            scheduled=False
     ):
         # Note that entity being `None` will perform a global search.
         if entity:
@@ -136,6 +137,8 @@ class _MessagesIter(RequestIter):
                 async for m in self.client.iter_messages(
                         self.entity, 1, offset_date=offset_date):
                     self.request.offset_id = m.id + 1
+        elif scheduled:
+            self.request = functions.messages.GetScheduledHistoryRequest(entity, 0)
         else:
             self.request = functions.messages.GetHistoryRequest(
                 peer=self.entity,
@@ -337,7 +340,8 @@ class MessageMethods:
             wait_time: float = None,
             ids: 'typing.Union[int, typing.Sequence[int]]' = None,
             reverse: bool = False,
-            reply_to: int = None
+            reply_to: int = None,
+            scheduled=False,
     ) -> 'typing.Union[_MessagesIter, _IDsIter]':
         """
         Iterator over the messages for the given chat.
@@ -522,7 +526,8 @@ class MessageMethods:
             add_offset=add_offset,
             filter=filter,
             search=search,
-            reply_to=reply_to
+            reply_to=reply_to,
+            scheduled=scheduled
         )
 
     async def get_messages(self: 'TelegramClient', *args, **kwargs) -> 'hints.TotalList':
