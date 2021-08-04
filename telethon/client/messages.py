@@ -1178,6 +1178,7 @@ class MessageMethods:
                         media = await self(functions.messages.UploadMediaRequest(types.InputPeerSelf(), media))
                         return await self.edit_message(entity,None,text=text, file=media,
                             buttons=buttons, supports_streaming=supports_streaming, attributes=attributes,
+                            formatting_entities=formatting_entities,
                             force_document=force_document, schedule=schedule, link_preview=link_preview)
 
                     return await self._call(sender, request)
