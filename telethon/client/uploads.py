@@ -97,6 +97,7 @@ class UploadMethods:
     # region Public methods
 
     async def send_file(
+<<<<<<< HEAD
         self: "TelegramClient",
         entity: "hints.EntityLike",
         file: "typing.Union[hints.FileLike, typing.Sequence[hints.FileLike]]",
@@ -123,6 +124,32 @@ class UploadMethods:
         comment_to: "typing.Union[int, types.Message]" = None,
         **kwargs
     ) -> "types.Message":
+=======
+            self: 'TelegramClient',
+            entity: 'hints.EntityLike',
+            file: 'typing.Union[hints.FileLike, typing.Sequence[hints.FileLike]]',
+            *,
+            caption: typing.Union[str, typing.Sequence[str]] = None,
+            force_document: bool = False,
+            file_size: int = None,
+            clear_draft: bool = False,
+            progress_callback: 'hints.ProgressCallback' = None,
+            reply_to: 'hints.MessageIDLike' = None,
+            attributes: 'typing.Sequence[types.TypeDocumentAttribute]' = None,
+            thumb: 'hints.FileLike' = None,
+            allow_cache: bool = True,
+            parse_mode: str = (),
+            formatting_entities: typing.Optional[typing.List[types.TypeMessageEntity]] = None,
+            voice_note: bool = False,
+            video_note: bool = False,
+            buttons: 'hints.MarkupLike' = None,
+            silent: bool = None,
+            background: bool = None,
+            supports_streaming: bool = False,
+            schedule: 'hints.DateLike' = None,
+            comment_to: 'typing.Union[int, types.Message]' = None,
+            **kwargs) -> 'types.Message':
+>>>>>>> e5599c178b9789df503ac90b1badd42aa8ed8681
         """
         Sends message with the given file to the specified entity.
 
@@ -256,6 +283,9 @@ class UploadMethods:
                 the person has the chat muted). Set it to `True` to alter
                 this behaviour.
 
+            background (`bool`, optional):
+                Whether the message should be send in background.
+
             supports_streaming (`bool`, optional):
                 Whether the sent video supports streaming or not. Note that
                 Telegram only recognizes as streamable some formats like MP4,
@@ -350,6 +380,7 @@ class UploadMethods:
             result = []
             while file:
                 result += await self._send_album(
+<<<<<<< HEAD
                     entity,
                     file[:10],
                     caption=captions[:10],
@@ -361,11 +392,19 @@ class UploadMethods:
                     supports_streaming=supports_streaming,
                     clear_draft=clear_draft,
                     force_document=force_document,
+=======
+                    entity, file[:10], caption=captions[:10],
+                    progress_callback=progress_callback, reply_to=reply_to,
+                    parse_mode=parse_mode, silent=silent, schedule=schedule,
+                    supports_streaming=supports_streaming, clear_draft=clear_draft,
+                    force_document=force_document, background=background,
+>>>>>>> e5599c178b9789df503ac90b1badd42aa8ed8681
                 )
                 file = file[10:]
                 captions = captions[10:]
 
             for doc, cap in zip(file, captions):
+<<<<<<< HEAD
                 result.append(
                     await self.send_file(
                         entity,
@@ -387,6 +426,18 @@ class UploadMethods:
                         **kwargs
                     )
                 )
+=======
+                result.append(await self.send_file(
+                    entity, doc, allow_cache=allow_cache,
+                    caption=cap, force_document=force_document,
+                    progress_callback=progress_callback, reply_to=reply_to,
+                    attributes=attributes, thumb=thumb, voice_note=voice_note,
+                    video_note=video_note, buttons=buttons, silent=silent,
+                    supports_streaming=supports_streaming, schedule=schedule,
+                    clear_draft=clear_draft, background=background,
+                    **kwargs
+                ))
+>>>>>>> e5599c178b9789df503ac90b1badd42aa8ed8681
 
             return result
 
@@ -414,6 +465,7 @@ class UploadMethods:
 
         markup = self.build_reply_markup(buttons)
         request = functions.messages.SendMediaRequest(
+<<<<<<< HEAD
             entity,
             media,
             reply_to_msg_id=reply_to,
@@ -440,6 +492,20 @@ class UploadMethods:
         clear_draft=None,
         force_document=False,
     ):
+=======
+            entity, media, reply_to_msg_id=reply_to, message=caption,
+            entities=msg_entities, reply_markup=markup, silent=silent,
+            schedule_date=schedule, clear_draft=clear_draft,
+            background=background
+        )
+        return self._get_response_message(request, await self(request), entity)
+
+    async def _send_album(self: 'TelegramClient', entity, files, caption='',
+                          progress_callback=None, reply_to=None,
+                          parse_mode=(), silent=None, schedule=None,
+                          supports_streaming=None, clear_draft=None,
+                          force_document=False, background=None):
+>>>>>>> e5599c178b9789df503ac90b1badd42aa8ed8681
         """Specialized version of .send_file for albums"""
         # We don't care if the user wants to avoid cache, we will use it
         # anyway. Why? The cached version will be exactly the same thing
@@ -500,12 +566,18 @@ class UploadMethods:
 
         # Now we can construct the multi-media request
         request = functions.messages.SendMultiMediaRequest(
+<<<<<<< HEAD
             entity,
             reply_to_msg_id=reply_to,
             multi_media=media,
             silent=silent,
             schedule_date=schedule,
             clear_draft=clear_draft,
+=======
+            entity, reply_to_msg_id=reply_to, multi_media=media,
+            silent=silent, schedule_date=schedule, clear_draft=clear_draft,
+            background=background
+>>>>>>> e5599c178b9789df503ac90b1badd42aa8ed8681
         )
         result = await self(request)
 

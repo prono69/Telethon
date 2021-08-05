@@ -277,18 +277,31 @@ class Button:
         )
 
     @staticmethod
-    def clear():
+    def clear(selective=None):
         """
         Clears all keyboard buttons after sending a message with this markup.
         When used, no other button should be present or it will be ignored.
+
+       ``selective`` is as documented in `text`.
+
         """
-        return types.ReplyKeyboardHide()
+        return types.ReplyKeyboardHide(selective=selective)
 
     @staticmethod
+<<<<<<< HEAD
     def force_reply(single_use=False, selective=False, placeholder=None):
+=======
+    def force_reply(single_use=None, selective=None, placeholder=None):
+>>>>>>> e5599c178b9789df503ac90b1badd42aa8ed8681
         """
         Forces a reply to the message with this markup. If used,
         no other button should be present or it will be ignored.
+
+        ``single_use`` and ``selective`` are as documented in `text`.
+
+        Args:
+            placeholder (str):
+                text to show the user at typing place of message.
         """
         return types.ReplyKeyboardForceReply(
             single_use=single_use,
