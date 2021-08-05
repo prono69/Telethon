@@ -353,53 +353,16 @@ class UploadMethods:
             result = []
             while file:
                 result += await self._send_album(
-<<<<<<< HEAD
-                    entity,
-                    file[:10],
-                    caption=captions[:10],
-                    progress_callback=progress_callback,
-                    reply_to=reply_to,
-                    parse_mode=parse_mode,
-                    silent=silent,
-                    schedule=schedule,
-                    supports_streaming=supports_streaming,
-                    clear_draft=clear_draft,
-                    force_document=force_document,
-=======
                     entity, file[:10], caption=captions[:10],
                     progress_callback=progress_callback, reply_to=reply_to,
                     parse_mode=parse_mode, silent=silent, schedule=schedule,
                     supports_streaming=supports_streaming, clear_draft=clear_draft,
                     force_document=force_document, background=background,
->>>>>>> e5599c178b9789df503ac90b1badd42aa8ed8681
                 )
                 file = file[10:]
                 captions = captions[10:]
 
             for doc, cap in zip(file, captions):
-<<<<<<< HEAD
-                result.append(
-                    await self.send_file(
-                        entity,
-                        doc,
-                        allow_cache=allow_cache,
-                        caption=cap,
-                        force_document=force_document,
-                        progress_callback=progress_callback,
-                        reply_to=reply_to,
-                        attributes=attributes,
-                        thumb=thumb,
-                        voice_note=voice_note,
-                        video_note=video_note,
-                        buttons=buttons,
-                        silent=silent,
-                        supports_streaming=supports_streaming,
-                        schedule=schedule,
-                        clear_draft=clear_draft,
-                        **kwargs
-                    )
-                )
-=======
                 result.append(await self.send_file(
                     entity, doc, allow_cache=allow_cache,
                     caption=cap, force_document=force_document,
@@ -410,7 +373,6 @@ class UploadMethods:
                     clear_draft=clear_draft, background=background,
                     **kwargs
                 ))
->>>>>>> e5599c178b9789df503ac90b1badd42aa8ed8681
 
             return result
 
@@ -438,34 +400,6 @@ class UploadMethods:
 
         markup = self.build_reply_markup(buttons)
         request = functions.messages.SendMediaRequest(
-<<<<<<< HEAD
-            entity,
-            media,
-            reply_to_msg_id=reply_to,
-            message=caption,
-            entities=msg_entities,
-            reply_markup=markup,
-            silent=silent,
-            schedule_date=schedule,
-            clear_draft=clear_draft,
-        )
-        return self._get_response_message(request, await self(request), entity)
-
-    async def _send_album(
-        self: "TelegramClient",
-        entity,
-        files,
-        caption="",
-        progress_callback=None,
-        reply_to=None,
-        parse_mode=(),
-        silent=None,
-        schedule=None,
-        supports_streaming=None,
-        clear_draft=None,
-        force_document=False,
-    ):
-=======
             entity, media, reply_to_msg_id=reply_to, message=caption,
             entities=msg_entities, reply_markup=markup, silent=silent,
             schedule_date=schedule, clear_draft=clear_draft,
@@ -478,7 +412,6 @@ class UploadMethods:
                           parse_mode=(), silent=None, schedule=None,
                           supports_streaming=None, clear_draft=None,
                           force_document=False, background=None):
->>>>>>> e5599c178b9789df503ac90b1badd42aa8ed8681
         """Specialized version of .send_file for albums"""
         # We don't care if the user wants to avoid cache, we will use it
         # anyway. Why? The cached version will be exactly the same thing
@@ -539,18 +472,9 @@ class UploadMethods:
 
         # Now we can construct the multi-media request
         request = functions.messages.SendMultiMediaRequest(
-<<<<<<< HEAD
-            entity,
-            reply_to_msg_id=reply_to,
-            multi_media=media,
-            silent=silent,
-            schedule_date=schedule,
-            clear_draft=clear_draft,
-=======
             entity, reply_to_msg_id=reply_to, multi_media=media,
             silent=silent, schedule_date=schedule, clear_draft=clear_draft,
             background=background
->>>>>>> e5599c178b9789df503ac90b1badd42aa8ed8681
         )
         result = await self(request)
 
