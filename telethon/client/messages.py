@@ -800,11 +800,7 @@ class MessageMethods:
                 buttons=buttons, clear_draft=clear_draft, silent=silent,
                 schedule=schedule, supports_streaming=supports_streaming,
                 formatting_entities=formatting_entities,
-<<<<<<< HEAD
                 comment_to=comment_to, background=background, album=album
-=======
-                comment_to=comment_to, background=background
->>>>>>> e5599c178b9789df503ac90b1badd42aa8ed8681
             )
 
         entity = await self.get_input_entity(entity)
