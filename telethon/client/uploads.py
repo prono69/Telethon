@@ -117,6 +117,7 @@ class UploadMethods:
         voice_note: bool = False,
         video_note: bool = False,
         buttons: "hints.MarkupLike" = None,
+        background:bool = None,
         silent: bool = None,
         supports_streaming: bool = False,
         schedule: "hints.DateLike" = None,
