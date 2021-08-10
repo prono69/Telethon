@@ -21,7 +21,7 @@ class _MessagesIter(RequestIter):
     async def _init(
             self, entity, offset_id, min_id, max_id,
             from_user, offset_date, add_offset, filter, search, reply_to,
-            scheduled=False
+            scheduled
     ):
         # Note that entity being `None` will perform a global search.
         if entity:
@@ -341,7 +341,7 @@ class MessageMethods:
             ids: 'typing.Union[int, typing.Sequence[int]]' = None,
             reverse: bool = False,
             reply_to: int = None,
-            scheduled=False,
+            scheduled: bool =False,
     ) -> 'typing.Union[_MessagesIter, _IDsIter]':
         """
         Iterator over the messages for the given chat.
