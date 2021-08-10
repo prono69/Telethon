@@ -142,8 +142,6 @@ class _MessagesIter(RequestIter):
                 async for m in self.client.iter_messages(
                         self.entity, 1, offset_date=offset_date):
                     self.request.offset_id = m.id + 1
-        elif scheduled:
-            self.request = functions.messages.GetScheduledHistoryRequest(entity, 0)
         else:
             self.request = functions.messages.GetHistoryRequest(
                 peer=self.entity,
