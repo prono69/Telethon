@@ -1445,7 +1445,7 @@ class MessageMethods:
             return True
 
         # Pinning in User chats (just with yourself really) does not produce a service message
-        if helpers._entity_type(entity) == helpers._EntityType.USER and pm_onside:
+        if helpers._entity_type(entity) == helpers._EntityType.USER and pm_oneside:
             return True
 
         # Pinning a message that doesn't exist would RPC-error earlier
