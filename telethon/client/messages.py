@@ -1429,7 +1429,7 @@ class MessageMethods:
         entity = await self.get_input_entity(entity)
         if message <= 0:  # old behaviour accepted negative IDs to unpin
             await self(functions.messages.UnpinAllMessagesRequest(entity))
-            return
+            return True
 
         request = functions.messages.UpdatePinnedMessageRequest(
             peer=entity,
@@ -1442,11 +1442,11 @@ class MessageMethods:
 
         # Unpinning does not produce a service message
         if unpin:
-            return
+            return True
 
         # Pinning in User chats (just with yourself really) does not produce a service message
-        if helpers._entity_type(entity) == helpers._EntityType.USER:
-            return
+        if helpers._entity_type(entity) == helpers._EntityType.USER and pm_onside:
+            return True
 
         # Pinning a message that doesn't exist would RPC-error earlier
         return self._get_response_message(request, result, entity)
