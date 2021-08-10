@@ -86,6 +86,11 @@ class _MessagesIter(RequestIter):
                 offset_id=offset_id,
                 limit=1
             )
+        elif scheduled:
+            self.request = functions.messages.GetScheduledHistoryRequest(
+                peer=entity,
+                hash=0
+            )
         elif reply_to is not None:
             self.request = functions.messages.GetRepliesRequest(
                 peer=self.entity,
@@ -467,6 +472,10 @@ class MessageMethods:
                     *discussion* group. If the same broadcast channel sends
                     a message and replies to it itself, that reply will not
                     be included in the results.
+
+            scheduled (`bool`, optional):
+                If set to `True`, messages which are scheduled will be returned.
+                All other parameter will be ignored for this, except `entity`.
 
         Yields
             Instances of `Message <telethon.tl.custom.message.Message>`.
