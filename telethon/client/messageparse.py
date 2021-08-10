@@ -137,7 +137,7 @@ class MessageParseMethods:
                 random_to_id[update.random_id] = update.id
 
             elif isinstance(
-                update, (types.UpdateNewChannelMessage, types.UpdateNewMessage)
+                update, (types.UpdateNewChannelMessage, (types.UpdateNewMessage, types.UpdateMessageId))
             ):
                 update.message._finish_init(self, entities, input_chat)
 
