@@ -341,7 +341,7 @@ class MessageMethods:
             ids: 'typing.Union[int, typing.Sequence[int]]' = None,
             reverse: bool = False,
             reply_to: int = None,
-            scheduled: bool =False,
+            scheduled: bool = False,
     ) -> 'typing.Union[_MessagesIter, _IDsIter]':
         """
         Iterator over the messages for the given chat.
