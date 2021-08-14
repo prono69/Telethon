@@ -769,6 +769,7 @@ class Message(ChatGetter, SenderGetter, TLObject):
             return await self._client.send_message(
                 await self.get_input_chat(), *args, **kwargs)
 
+    
     async def forward_to(self, *args, **kwargs):
         """
         Forwards the message. Shorthand for
@@ -783,6 +784,14 @@ class Message(ChatGetter, SenderGetter, TLObject):
             kwargs['messages'] = self.id
             kwargs['from_peer'] = await self.get_input_chat()
             return await self._client.forward_messages(*args, **kwargs)
+
+
+    async def comment(self, *args, **kwargs):
+        if self._client:
+            kwargs["comment_to"] = self.id
+            return await self._client.send_message(
+                await self.get_input_chat(), *args, **kwargs)
+
 
     async def edit(self, *args, **kwargs):
         """
