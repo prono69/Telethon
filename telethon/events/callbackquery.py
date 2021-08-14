@@ -329,8 +329,9 @@ class CallbackQuery(EventBuilder):
                     self.query.msg_id, *args, **kwargs
                 )
             else:
+                message = await self.get_message()
                 return await self._client.edit_message(
-                    await self.get_input_chat(), self.query.msg_id, *args, **kwargs
+                    await self.get_input_chat(), message, *args, **kwargs
                 )
 
         async def delete(self, *args, **kwargs):
