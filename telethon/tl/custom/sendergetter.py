@@ -1,4 +1,5 @@
 import abc
+import asyncio
 
 
 class SenderGetter(abc.ABC):
@@ -27,7 +28,7 @@ class SenderGetter(abc.ABC):
 
         If you're using `telethon.events`, use `get_sender()` instead.
         """
-        return self._sender
+        return asyncio.get_event_loop().run_in_executor(None, self.get_sender)
 
     async def get_sender(self):
         """
