@@ -1213,6 +1213,7 @@ class MessageMethods:
             entity: 'hints.EntityLike',
             message_ids: 'typing.Union[hints.MessageIDLike, typing.Sequence[hints.MessageIDLike]]',
             *,
+            is_scheduled: bool = False,
             revoke: bool = True) -> 'typing.Sequence[types.messages.AffectedMessages]':
         """
         Deletes the given messages, optionally "for everyone".
@@ -1273,6 +1274,10 @@ class MessageMethods:
         else:
             # no entity (None), set a value that's not a channel for private delete
             ty = helpers._EntityType.USER
+
+        if is_scheduled:
+            return await self([functions.messages.DeleteScheduledMessagesRequest(
+                         entity, list(c)) for c in utils.chunks(message_ids)])
 
         if ty == helpers._EntityType.CHANNEL:
             return await self([functions.channels.DeleteMessagesRequest(
