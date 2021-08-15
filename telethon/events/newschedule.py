@@ -76,3 +76,11 @@ class NewScheduled(EventBuilder):
                 self.__dict__[name] = value
             else:
                 setattr(self.message, name, value)
+
+        async def edit(self, schedule=self.message.date, *args, **kwargs):
+            return await selt.message.edit(*args, **kwargs, schedule=schedule)
+
+        async def delete(self, *args, **kwargs):
+            kwargs["is_scheduled"] = True
+            return await self.message.edit(*args, **kwargs)
+        
