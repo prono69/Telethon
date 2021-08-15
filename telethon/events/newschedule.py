@@ -78,9 +78,9 @@ class NewScheduled(EventBuilder):
                 setattr(self.message, name, value)
 
         async def edit(self, *args, **kwargs):
-            return await selt.message.edit(*args, **kwargs)
+            return await self.message.edit(*args, **kwargs)
 
         async def delete(self, *args, **kwargs):
             kwargs["is_scheduled"] = True
-            return await self.message.edit(*args, **kwargs)
+            return await self.message.delete(*args, **kwargs)
         
