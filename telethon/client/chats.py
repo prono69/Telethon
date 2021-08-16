@@ -165,11 +165,7 @@ class _ParticipantsIter(RequestIter):
                 users.update({chat.id:chat})
             for participant in full.full_chat.participants.participants:
                 if isinstance(participant, types.ChannelParticipantBanned):
-                    peer = participant.peer
-                    if isinstance(peer, types.PeetChannel):
-                        user_id = peer.channel_id
-                    else:
-                        user_id = peer.user_id
+                    user_id = utils.get_peer_id(participant.peer)
                 else:
                     user_id = participant.user_id
                 user = users[user_id]
@@ -241,11 +237,7 @@ class _ParticipantsIter(RequestIter):
             for participant in participants.participants:
 
                 if isinstance(participant, types.ChannelParticipantBanned):
-                    peer = participant.peer
-                    if isinstance(peer, types.PeerChannel):
-                        user_id = peer.channel_id
-                    else:
-                        user_id = peer.user_id
+                    user_id = utils.get_peer_id(participant.peer)
                 else:
                     user_id = participant.user_id
 
