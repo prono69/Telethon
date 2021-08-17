@@ -851,6 +851,8 @@ class MessageMethods:
             )
             message = message.message
         else:
+            if not isinstance(message, str):
+                message = str(message)
             if formatting_entities is None:
                 message, formatting_entities = await self._parse_message_text(message, parse_mode)
             if not message:
