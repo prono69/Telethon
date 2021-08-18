@@ -1154,7 +1154,7 @@ class MessageMethods:
             text = message  # Shift the parameters to the right
             message = entity
             entity = entity.peer_id
-            schedule = schedule or entity.date
+
 
         if formatting_entities is None:
             text, formatting_entities = await self._parse_message_text(text, parse_mode)
