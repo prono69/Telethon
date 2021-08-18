@@ -669,7 +669,7 @@ class Message(ChatGetter, SenderGetter, TLObject):
     @property
     def message_link(self):
         """ message link """
-        if self.chat.username:
+        if hasattr(self.chat, "username") and self.chat.username:
             out=f"https://t.me/{self.chat.username}/{self.id}"
         else:
             out=f"https://t.me/c/{self.chat.id}/{self.id}"
