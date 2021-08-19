@@ -166,7 +166,7 @@ class _ParticipantsIter(RequestIter):
             for participant in full.full_chat.participants.participants:
                 if isinstance(participant, types.ChannelParticipantBanned):
                     peer = participant.peer
-                    if isinstance(peer, types.PeetChannel):
+                    if isinstance(peer, types.PeerChannel):
                         user_id = peer.channel_id
                     else:
                         user_id = peer.user_id
