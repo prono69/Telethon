@@ -12,7 +12,7 @@ account.deleteSecureValue,user,
 account.finishTakeoutSession,user,
 account.getAccountTTL,user,
 account.getAllSecureValues,user,
-account.getAuthorizationForm,user,
+account.getAuthorizationForm,user,PUBLIC_KEY_REQUIRED
 account.getAuthorizations,user,
 account.getAutoDownloadSettings,user,
 account.getContactSignUpNotification,user,
@@ -79,7 +79,7 @@ auth.importBotAuthorization,both,ACCESS_TOKEN_EXPIRED ACCESS_TOKEN_INVALID API_I
 auth.importLoginToken,user,AUTH_TOKEN_ALREADY_ACCEPTED AUTH_TOKEN_EXPIRED AUTH_TOKEN_INVALID
 auth.logOut,both,
 auth.recoverPassword,user,CODE_EMPTY NEW_SETTINGS_INVALID
-auth.requestPasswordRecovery,user,PASSWORD_EMPTY
+auth.requestPasswordRecovery,user,PASSWORD_EMPTY PASSWORD_RECOVERY_NA
 auth.resendCode,user,PHONE_NUMBER_INVALID
 auth.resetAuthorizations,user,TIMEOUT
 auth.sendCode,user,API_ID_INVALID API_ID_PUBLISHED_FLOOD AUTH_RESTART INPUT_REQUEST_TOO_LONG PHONE_NUMBER_APP_SIGNUP_FORBIDDEN PHONE_NUMBER_BANNED PHONE_NUMBER_FLOOD PHONE_NUMBER_INVALID PHONE_PASSWORD_FLOOD PHONE_PASSWORD_PROTECTED
@@ -89,6 +89,7 @@ bots.answerWebhookJSONQuery,bot,QUERY_ID_INVALID USER_BOT_INVALID
 bots.sendCustomRequest,bot,USER_BOT_INVALID
 bots.setBotCommands,bot,BOT_COMMAND_DESCRIPTION_INVALID BOT_COMMAND_INVALID LANG_CODE_INVALID
 channels.checkUsername,user,CHANNEL_INVALID CHAT_ID_INVALID USERNAME_INVALID
+channels.convertToGigagroup,user,PARTICIPANTS_TOO_FEW
 channels.createChannel,user,CHAT_TITLE_EMPTY USER_RESTRICTED
 channels.deleteChannel,user,CHANNEL_INVALID CHANNEL_PRIVATE
 channels.deleteHistory,user,
@@ -231,7 +232,7 @@ messages.getPeerDialogs,user,CHANNEL_PRIVATE PEER_ID_INVALID
 messages.getPeerSettings,user,CHANNEL_INVALID PEER_ID_INVALID
 messages.getPinnedDialogs,user,
 messages.getPollResults,user,
-messages.getPollVotes,user,BROADCAST_FORBIDDEN
+messages.getPollVotes,user,BROADCAST_FORBIDDEN POLL_VOTE_REQUIRED
 messages.getRecentLocations,user,
 messages.getRecentStickers,user,
 messages.getSavedGifs,user,
