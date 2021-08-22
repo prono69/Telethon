@@ -132,7 +132,7 @@ class InlineQuery(EventBuilder):
             and the user's device is able to send it, this will return
             the :tl:`GeoPoint` with the position of the user.
             """
-            return
+            return self.query.geo
 
         @property
         def builder(self):
