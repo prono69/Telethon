@@ -117,7 +117,7 @@ class UploadMethods:
         voice_note: bool = False,
         video_note: bool = False,
         buttons: "hints.MarkupLike" = None,
-        background:bool = None,
+        background: bool = None,
         silent: bool = None,
         supports_streaming: bool = False,
         schedule: "hints.DateLike" = None,
@@ -354,26 +354,45 @@ class UploadMethods:
             result = []
             while file:
                 result += await self._send_album(
-                    entity, file[:10], caption=captions[:10],
-                    progress_callback=progress_callback, reply_to=reply_to,
-                    parse_mode=parse_mode, silent=silent, schedule=schedule,
-                    supports_streaming=supports_streaming, clear_draft=clear_draft,
-                    force_document=force_document, background=background,
+                    entity,
+                    file[:10],
+                    caption=captions[:10],
+                    progress_callback=progress_callback,
+                    reply_to=reply_to,
+                    parse_mode=parse_mode,
+                    silent=silent,
+                    schedule=schedule,
+                    supports_streaming=supports_streaming,
+                    clear_draft=clear_draft,
+                    force_document=force_document,
+                    background=background,
                 )
                 file = file[10:]
                 captions = captions[10:]
 
             for doc, cap in zip(file, captions):
-                result.append(await self.send_file(
-                    entity, doc, allow_cache=allow_cache,
-                    caption=cap, force_document=force_document,
-                    progress_callback=progress_callback, reply_to=reply_to,
-                    attributes=attributes, thumb=thumb, voice_note=voice_note,
-                    video_note=video_note, buttons=buttons, silent=silent,
-                    supports_streaming=supports_streaming, schedule=schedule,
-                    clear_draft=clear_draft, background=background,
-                    **kwargs
-                ))
+                result.append(
+                    await self.send_file(
+                        entity,
+                        doc,
+                        allow_cache=allow_cache,
+                        caption=cap,
+                        force_document=force_document,
+                        progress_callback=progress_callback,
+                        reply_to=reply_to,
+                        attributes=attributes,
+                        thumb=thumb,
+                        voice_note=voice_note,
+                        video_note=video_note,
+                        buttons=buttons,
+                        silent=silent,
+                        supports_streaming=supports_streaming,
+                        schedule=schedule,
+                        clear_draft=clear_draft,
+                        background=background,
+                        **kwargs
+                    )
+                )
 
             return result
 
@@ -401,18 +420,34 @@ class UploadMethods:
 
         markup = self.build_reply_markup(buttons)
         request = functions.messages.SendMediaRequest(
-            entity, media, reply_to_msg_id=reply_to, message=caption,
-            entities=msg_entities, reply_markup=markup, silent=silent,
-            schedule_date=schedule, clear_draft=clear_draft,
-            background=background
+            entity,
+            media,
+            reply_to_msg_id=reply_to,
+            message=caption,
+            entities=msg_entities,
+            reply_markup=markup,
+            silent=silent,
+            schedule_date=schedule,
+            clear_draft=clear_draft,
+            background=background,
         )
         return self._get_response_message(request, await self(request), entity)
 
-    async def _send_album(self: 'TelegramClient', entity, files, caption='',
-                          progress_callback=None, reply_to=None,
-                          parse_mode=(), silent=None, schedule=None,
-                          supports_streaming=None, clear_draft=None,
-                          force_document=False, background=None):
+    async def _send_album(
+        self: "TelegramClient",
+        entity,
+        files,
+        caption="",
+        progress_callback=None,
+        reply_to=None,
+        parse_mode=(),
+        silent=None,
+        schedule=None,
+        supports_streaming=None,
+        clear_draft=None,
+        force_document=False,
+        background=None,
+    ):
         """Specialized version of .send_file for albums"""
         # We don't care if the user wants to avoid cache, we will use it
         # anyway. Why? The cached version will be exactly the same thing
@@ -473,9 +508,13 @@ class UploadMethods:
 
         # Now we can construct the multi-media request
         request = functions.messages.SendMultiMediaRequest(
-            entity, reply_to_msg_id=reply_to, multi_media=media,
-            silent=silent, schedule_date=schedule, clear_draft=clear_draft,
-            background=background
+            entity,
+            reply_to_msg_id=reply_to,
+            multi_media=media,
+            silent=silent,
+            schedule_date=schedule,
+            clear_draft=clear_draft,
+            background=background,
         )
         result = await self(request)
 

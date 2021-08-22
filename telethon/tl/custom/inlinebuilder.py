@@ -90,7 +90,8 @@ class InlineBuilder:
         contact=None,
         game=False,
         buttons=None,
-        include_media=False):
+        include_media=False
+    ):
         """
         Creates new inline result of article type.
 

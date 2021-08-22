@@ -148,7 +148,7 @@ class ChatAction(EventBuilder):
             new_title=None,
             pin_ids=None,
             pin=None,
-            group_call_update=None
+            group_call_update=None,
         ):
             if isinstance(where, types.MessageService):
                 self.action_message = where

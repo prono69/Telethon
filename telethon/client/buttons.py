@@ -93,4 +93,5 @@ class ButtonMethods:
             return types.ReplyInlineMarkup(rows)
         # elif is_normal:
         return types.ReplyKeyboardMarkup(
-            rows, resize=resize, single_use=single_use, selective=selective)
+            rows, resize=resize, single_use=single_use, selective=selective
+        )

@@ -7,9 +7,7 @@ from ..tl import types
 
 @name_inner_event
 class NewScheduled(EventBuilder):
-    def __init__(
-        self, chats=None, *, blacklist_chats=False, func=None, pattern=None
-    ):
+    def __init__(self, chats=None, *, blacklist_chats=False, func=None, pattern=None):
         super().__init__(chats, blacklist_chats=blacklist_chats, func=func)
         if isinstance(pattern, str):
             self.pattern = re.compile(pattern).match
@@ -83,4 +81,3 @@ class NewScheduled(EventBuilder):
         async def delete(self, *args, **kwargs):
             kwargs["is_scheduled"] = True
             return await self.message.delete(*args, **kwargs)
-        

@@ -174,7 +174,7 @@ class Button:
         Create a inline button to Buy a Product.
 
         It can be only used with Invoice.
-        It should be the first button of the Invoice. 
+        It should be the first button of the Invoice.
         On Not using this, Telegram will Automatically add button to it.
         Read More - https://core.telegram.org/api/payments
         """
@@ -279,10 +279,10 @@ class Button:
     @staticmethod
     def clear(selective=None):
         """
-        Clears all keyboard buttons after sending a message with this markup.
-        When used, no other button should be present or it will be ignored.
+         Clears all keyboard buttons after sending a message with this markup.
+         When used, no other button should be present or it will be ignored.
 
-       ``selective`` is as documented in `text`.
+        ``selective`` is as documented in `text`.
 
         """
         return types.ReplyKeyboardHide(selective=selective)
@@ -300,6 +300,5 @@ class Button:
                 text to show the user at typing place of message.
         """
         return types.ReplyKeyboardForceReply(
-            single_use=single_use,
-            selective=selective,
-            placeholder=placeholder)
+            single_use=single_use, selective=selective, placeholder=placeholder
+        )
