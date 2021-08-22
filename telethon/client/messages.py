@@ -471,10 +471,6 @@ class MessageMethods:
                     a message and replies to it itself, that reply will not
                     be included in the results.
 
-            scheduled (`bool`, optional):
-                If set to `True`, messages which are scheduled will be returned.
-                All other parameter will be ignored for this, except `entity`.
-
         Yields
             Instances of `Message <telethon.tl.custom.message.Message>`.
 
@@ -853,6 +849,7 @@ class MessageMethods:
         else:
             if not isinstance(message, str):
                 message = str(message)
+
             if formatting_entities is None:
                 message, formatting_entities = await self._parse_message_text(message, parse_mode)
             if not message:
@@ -1155,7 +1152,6 @@ class MessageMethods:
             message = entity
             entity = entity.peer_id
 
-
         if formatting_entities is None:
             text, formatting_entities = await self._parse_message_text(text, parse_mode)
         file_handle, media, image = await self._file_to_media(file,
@@ -1187,8 +1183,6 @@ class MessageMethods:
                             buttons=buttons, supports_streaming=supports_streaming, attributes=attributes,
                             formatting_entities=formatting_entities,
                             force_document=force_document, schedule=schedule, link_preview=link_preview)
-
-                    return await self._call(sender, request)
                 finally:
                     await self._return_exported_sender(sender)
             else:
@@ -1391,7 +1385,7 @@ class MessageMethods:
 
             notify (`bool`, optional):
                 Whether the pin should notify people or not.
-                
+
             pm_oneside (`bool`, optional):
                 Whether the message should be pinned for everyone or not.
                 By default it has the opposite behaviour of official clients,
@@ -1441,7 +1435,7 @@ class MessageMethods:
         entity = await self.get_input_entity(entity)
         if message <= 0:  # old behaviour accepted negative IDs to unpin
             await self(functions.messages.UnpinAllMessagesRequest(entity))
-            return True
+            return
 
         request = functions.messages.UpdatePinnedMessageRequest(
             peer=entity,
@@ -1457,7 +1451,7 @@ class MessageMethods:
         # Pinning a message in your own chat does not produce a service message,
         # but pinning on a private conversation with someone else does.
         if unpin or not result.updates:
-            return True
+            return
 
         # Pinning a message that doesn't exist would RPC-error earlier
         return self._get_response_message(request, result, entity)
