@@ -1452,12 +1452,11 @@ class MessageMethods:
         )
         result = await self(request)
 
-        # Unpinning does not produce a service message
-        if unpin:
-            return True
-
-        # Pinning in User chats (just with yourself really) does not produce a service message
-        if helpers._entity_type(entity) == helpers._EntityType.USER and pm_oneside:
+        # Unpinning does not produce a service message.
+        # Pinning a message that was already pinned also produces no service message.
+        # Pinning a message in your own chat does not produce a service message,
+        # but pinning on a private conversation with someone else does.
+        if unpin or not result.updates:
             return True
 
         # Pinning a message that doesn't exist would RPC-error earlier
