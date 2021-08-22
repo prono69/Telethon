@@ -161,15 +161,9 @@ class _ParticipantsIter(RequestIter):
             self.total = len(full.full_chat.participants.participants)
 
             users = {user.id: user for user in full.users}
-            for chat in full.chats:
-                users.update({chat.id:chat})
             for participant in full.full_chat.participants.participants:
                 if isinstance(participant, types.ChannelParticipantBanned):
-                    peer = participant.peer
-                    if isinstance(peer, types.PeerChannel):
-                        user_id = peer.channel_id
-                    else:
-                        user_id = peer.user_id
+                    user_id = participant.peer.user_id
                 else:
                     user_id = participant.user_id
                 user = users[user_id]
@@ -236,16 +230,13 @@ class _ParticipantsIter(RequestIter):
 
             self.requests[i].offset += len(participants.participants)
             users = {user.id: user for user in participants.users}
-            for chat in participants.chats:
-                users.update({chat.id: chat})
             for participant in participants.participants:
 
                 if isinstance(participant, types.ChannelParticipantBanned):
-                    peer = participant.peer
-                    if isinstance(peer, types.PeerChannel):
-                        user_id = peer.channel_id
-                    else:
-                        user_id = peer.user_id
+                    if not isinstance(participant.peer, types.PeerUser):
+                        # May have the entire channel banned. See #3105.
+                        continue
+                    user_id = participant.peer.user_id
                 else:
                     user_id = participant.user_id
 
@@ -1149,7 +1140,10 @@ class ChatMethods:
             ))
 
         user = await self.get_input_entity(user)
- 
+        ty = helpers._entity_type(user)
+        if ty != helpers._EntityType.USER:
+            raise ValueError('You must pass a user entity')
+
         if isinstance(user, types.InputPeerSelf):
             raise ValueError('You cannot restrict yourself')
 
@@ -1198,6 +1192,8 @@ class ChatMethods:
         """
         entity = await self.get_input_entity(entity)
         user = await self.get_input_entity(user)
+        if helpers._entity_type(user) != helpers._EntityType.USER:
+            raise ValueError('You must pass a user entity')
 
         ty = helpers._entity_type(entity)
         if ty == helpers._EntityType.CHAT:
@@ -1274,6 +1270,8 @@ class ChatMethods:
 
         entity = await self.get_input_entity(entity)
         user = await self.get_input_entity(user)
+        if helpers._entity_type(user) != helpers._EntityType.USER:
+            raise ValueError('You must pass a user entity')
         if helpers._entity_type(entity) == helpers._EntityType.CHANNEL:
             participant = await self(functions.channels.GetParticipantRequest(
                 entity,
