@@ -681,6 +681,13 @@ class Message(ChatGetter, SenderGetter, TLObject):
     # noinspection PyIncorrectDocstring
 
     @property
+    def input_media(self):
+        if not self.media or isinstance(self.media, types.MessageMediaWebPage):
+            return None
+        return utils.get_input_media(self.media)
+
+
+    @property
     def message_link(self):
         """message link"""
         if hasattr(self.chat, "username") and self.chat.username:
