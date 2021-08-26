@@ -1264,7 +1264,7 @@ class MessageMethods:
     async def delete_messages(
         self: "TelegramClient",
         entity: "hints.EntityLike",
-        message_ids: "typing.Union[hints.MessageIDLike, typing.Sequence[hints.MessageIDLike]]",
+        message_ids: "typing.Union[hints.MessageIDLike, typing.Sequence[hints.MessageIDLike]]" = None,
         *,
         from_user: "hints.EntityLike" = None,
         is_scheduled: bool = False,
