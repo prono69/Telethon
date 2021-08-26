@@ -1264,6 +1264,7 @@ class MessageMethods:
         entity: "hints.EntityLike",
         message_ids: "typing.Union[hints.MessageIDLike, typing.Sequence[hints.MessageIDLike]]",
         *,
+        from_user: "hints.EntityLike" = None,
         is_scheduled: bool = False,
         revoke: bool = True
     ) -> "typing.Sequence[types.messages.AffectedMessages]":
@@ -1327,6 +1328,9 @@ class MessageMethods:
         else:
             # no entity (None), set a value that's not a channel for private delete
             ty = helpers._EntityType.USER
+
+        if from_user:
+            return await self(functions.channels.DeleteUserHistoryRequest(entity, from_user))
 
         if is_scheduled:
             return await self(
