@@ -51,8 +51,7 @@ class StringSession(MemorySession):
     def decode(x: str) -> bytes:
         return base64.urlsafe_b64decode(x)
 
-"""
-    def save(self: Session):
+    def _save_session(self: Session):
         if not self.auth_key:
             return ""
 
@@ -66,4 +65,3 @@ class StringSession(MemorySession):
                 self.auth_key.key,
             )
         )
-"""
