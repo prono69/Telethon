@@ -56,7 +56,7 @@ class StringSession(MemorySession):
             return ""
 
         ip = ipaddress.ip_address(self.server_address).packed
-        return CURRENT_VERSION + StringSession.encode(
+        """return CURRENT_VERSION + StringSession.encode(
             struct.pack(
                 _STRUCT_PREFORMAT.format(len(ip)),
                 self.dc_id,
@@ -64,4 +64,4 @@ class StringSession(MemorySession):
                 self.port,
                 self.auth_key.key,
             )
-        )
+        )"""
