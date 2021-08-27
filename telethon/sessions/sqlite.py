@@ -55,7 +55,7 @@ class SQLiteSession(MemorySession):
                 self._upgrade_database(old=version)
                 c.execute("delete from version")
                 c.execute("insert into version values (?)", (CURRENT_VERSION,))
-                self.save()
+                self._save_session()
 
             # These values will be saved
             c.execute("select * from sessions")
