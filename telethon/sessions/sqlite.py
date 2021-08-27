@@ -230,7 +230,7 @@ class SQLiteSession(MemorySession):
             state.seq,
         )
 
-    def save(self):
+    def _save_session(self):
         """Saves the current session object as session_user_id.session"""
         # This is a no-op if there are no changes to commit, so there's
         # no need for us to keep track of an "unsaved changes" variable.
