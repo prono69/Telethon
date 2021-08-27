@@ -1192,7 +1192,7 @@ class MessageMethods:
             text = text or message
             message = entity
         elif isinstance(entity, types.Message):
-            text = message  # Shift the parameters to the right
+            text = message or entity.text # Shift the parameters to the right
             message = entity
             entity = entity.peer_id
 
