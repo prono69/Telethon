@@ -528,7 +528,7 @@ class TelegramBaseClient(abc.ABC):
             return
 
         self.session.auth_key = self._sender.auth_key
-        self.session.save()
+        self.session._save_session()
 
         self._init_request.query = functions.help.GetConfigRequest()
 
