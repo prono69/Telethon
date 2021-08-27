@@ -58,7 +58,7 @@ class _DirectDownloadIter(RequestIter):
                         self.client.session.set_dc(
                             option.id, option.ip_address, option.port
                         )
-                        self.client.session.save()
+                        self.client.session._save_session()
                         break
 
                 # TODO Figure out why the session may have the wrong DC ID
