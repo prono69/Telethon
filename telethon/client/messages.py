@@ -853,7 +853,7 @@ class MessageMethods:
             )
             message = message.message
         else:
-             if not isinstance(message, str):
+            if not isinstance(message, str):
                 message = str(message)
 
             if formatting_entities is None:
