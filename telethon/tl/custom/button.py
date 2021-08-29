@@ -20,7 +20,7 @@ class Button:
     instances instead making them yourself (i.e. don't do ``Button(...)``
     but instead use methods line `Button.inline(...) <inline>` etc.
 
-    You can use `inline`, `switch_inline`, `url` and `auth`
+    You can use `inline`, `switch_inline`, `url`, `auth`, `buy` and `game`
     together to create inline buttons (under the message).
 
     You can use `text`, `request_location`, `request_phone` and `request_poll`
@@ -37,7 +37,6 @@ class Button:
     to 128 characters and add the ellipsis (…) character as
     the 129.
     """
-
     def __init__(self, button, *, resize, single_use, selective):
         self.button = button
         self.resize = resize
@@ -49,16 +48,14 @@ class Button:
         """
         Returns `True` if the button belongs to an inline keyboard.
         """
-        return isinstance(
-            button,
-            (
-                types.KeyboardButtonBuy,
-                types.KeyboardButtonCallback,
-                types.KeyboardButtonSwitchInline,
-                types.KeyboardButtonUrl,
-                types.InputKeyboardButtonUrlAuth,
-            ),
-        )
+        return isinstance(button, (
+            types.KeyboardButtonBuy,
+            types.KeyboardButtonCallback,
+            types.KeyboardButtonGame,
+            types.KeyboardButtonSwitchInline,
+            types.KeyboardButtonUrl,
+            types.InputKeyboardButtonUrlAuth
+        ))
 
     @staticmethod
     def inline(text, data=None):
@@ -79,17 +76,17 @@ class Button:
         button was pressed.
         """
         if not data:
-            data = text.encode("utf-8")
+            data = text.encode('utf-8')
         elif not isinstance(data, (bytes, bytearray, memoryview)):
-            data = str(data).encode("utf-8")
+            data = str(data).encode('utf-8')
 
         if len(data) > 64:
-            raise ValueError("Too many bytes for the data")
+            raise ValueError('Too many bytes for the data')
 
         return types.KeyboardButtonCallback(text, data)
 
     @staticmethod
-    def switch_inline(text, query="", same_peer=False):
+    def switch_inline(text, query='', same_peer=False):
         """
         Creates a new inline button to switch to inline query.
 
@@ -165,20 +162,8 @@ class Button:
             url=url or text,
             bot=utils.get_input_user(bot or types.InputUserSelf()),
             request_write_access=write_access,
-            fwd_text=fwd_text,
+            fwd_text=fwd_text
         )
-
-    @staticmethod
-    def buy(text):
-        """
-        Create a inline button to Buy a Product.
-
-        It can be only used with Invoice.
-        It should be the first button of the Invoice.
-        On Not using this, Telegram will Automatically add button to it.
-        Read More - https://core.telegram.org/api/payments
-        """
-        return types.KeyboardButtonBuy(text)
 
     @classmethod
     def text(cls, text, *, resize=None, single_use=None, selective=None):
@@ -206,15 +191,12 @@ class Button:
         between a button press and the user typing and sending exactly the
         same text on their own.
         """
-        return cls(
-            types.KeyboardButton(text),
-            resize=resize,
-            single_use=single_use,
-            selective=selective,
-        )
+        return cls(types.KeyboardButton(text),
+                   resize=resize, single_use=single_use, selective=selective)
 
     @classmethod
-    def request_location(cls, text, *, resize=None, single_use=None, selective=None):
+    def request_location(cls, text, *,
+                         resize=None, single_use=None, selective=None):
         """
         Creates a new keyboard button to request the user's location on click.
 
@@ -224,15 +206,12 @@ class Button:
         to the user asking whether they want to share their location with the
         bot, and if confirmed a message with geo media will be sent.
         """
-        return cls(
-            types.KeyboardButtonRequestGeoLocation(text),
-            resize=resize,
-            single_use=single_use,
-            selective=selective,
-        )
+        return cls(types.KeyboardButtonRequestGeoLocation(text),
+                   resize=resize, single_use=single_use, selective=selective)
 
     @classmethod
-    def request_phone(cls, text, *, resize=None, single_use=None, selective=None):
+    def request_phone(cls, text, *,
+                      resize=None, single_use=None, selective=None):
         """
         Creates a new keyboard button to request the user's phone on click.
 
@@ -242,17 +221,12 @@ class Button:
         to the user asking whether they want to share their phone with the
         bot, and if confirmed a message with contact media will be sent.
         """
-        return cls(
-            types.KeyboardButtonRequestPhone(text),
-            resize=resize,
-            single_use=single_use,
-            selective=selective,
-        )
+        return cls(types.KeyboardButtonRequestPhone(text),
+                   resize=resize, single_use=single_use, selective=selective)
 
     @classmethod
-    def request_poll(
-        cls, text, *, force_quiz=False, resize=None, single_use=None, selective=None
-    ):
+    def request_poll(cls, text, *, force_quiz=False,
+                     resize=None, single_use=None, selective=None):
         """
         Creates a new keyboard button to request the user to create a poll.
 
@@ -269,26 +243,22 @@ class Button:
         When the user clicks this button, a screen letting the user create a
         poll will be shown, and if they do create one, the poll will be sent.
         """
-        return cls(
-            types.KeyboardButtonRequestPoll(text, quiz=force_quiz),
-            resize=resize,
-            single_use=single_use,
-            selective=selective,
-        )
+        return cls(types.KeyboardButtonRequestPoll(text, quiz=force_quiz),
+                   resize=resize, single_use=single_use, selective=selective)
 
     @staticmethod
     def clear(selective=None):
         """
-         Clears all keyboard buttons after sending a message with this markup.
-         When used, no other button should be present or it will be ignored.
+        Clears all keyboard buttons after sending a message with this markup.
+        When used, no other button should be present or it will be ignored.
 
-        ``selective`` is as documented in `text`.
+       ``selective`` is as documented in `text`.
 
         """
         return types.ReplyKeyboardHide(selective=selective)
 
     @staticmethod
-    def force_reply(single_use=False, selective=False, placeholder=None):
+    def force_reply(single_use=None, selective=None, placeholder=None):
         """
         Forces a reply to the message with this markup. If used,
         no other button should be present or it will be ignored.
@@ -298,7 +268,41 @@ class Button:
         Args:
             placeholder (str):
                 text to show the user at typing place of message.
+
+                If the placeholder is too long, Telegram applications will
+                crop the text (for example, to 64 characters and adding an
+                ellipsis (…) character as the 65th).
         """
         return types.ReplyKeyboardForceReply(
-            single_use=single_use, selective=selective, placeholder=placeholder
-        )
+            single_use=single_use,
+            selective=selective,
+            placeholder=placeholder)
+
+    @staticmethod
+    def buy(text):
+        """
+        Creates a new inline button to buy a product.
+
+        This can only be used when sending files of type
+        :tl:`InputMediaInvoice`, and must be the first button.
+
+        If the button is not specified, Telegram will automatically
+        add the button to the message. See the
+        `Payments API <https://core.telegram.org/api/payments>`__
+        documentation for more information.
+        """
+        return types.KeyboardButtonBuy(text)
+
+    @staticmethod
+    def game(text):
+        """
+        Creates a new inline button to start playing a game.
+
+        This should be used when sending files of type
+        :tl:`InputMediaGame`, and must be the first button.
+
+        See the
+        `Games <https://core.telegram.org/api/bots/games>`__
+        documentation for more information on using games.
+        """
+        return types.KeyboardButtonGame(text)
