@@ -346,11 +346,7 @@ class UploadMethods:
         # First check if the user passed an iterable, in which case
         # we may want to send grouped.
         if utils.is_list_like(file):
-            if utils.is_list_like(caption):
-                captions = caption
-            else:
-                captions = [caption]
-
+            captions = caption if utils.is_list_like(caption) else [caption]
             result = []
             while file:
                 result += await self._send_album(
@@ -493,10 +489,7 @@ class UploadMethods:
                     r.document, supports_streaming=supports_streaming
                 )
 
-            if captions:
-                caption, msg_entities = captions.pop()
-            else:
-                caption, msg_entities = "", None
+            caption, msg_entities = captions.pop() if captions else ("", None)
             media.append(
                 types.InputSingleMedia(
                     fm,
@@ -692,17 +685,16 @@ class UploadMethods:
                     )
 
                 result = await self(request)
-                if result:
-                    self._log[__name__].debug(
-                        "Uploaded %d/%d", part_index + 1, part_count
-                    )
-                    if progress_callback:
-                        await helpers._maybe_await(progress_callback(pos, file_size))
-                else:
+                if not result:
                     raise RuntimeError(
                         "Failed to upload file part {}.".format(part_index)
                     )
 
+                self._log[__name__].debug(
+                    "Uploaded %d/%d", part_index + 1, part_count
+                )
+                if progress_callback:
+                    await helpers._maybe_await(progress_callback(pos, file_size))
         if is_big:
             return types.InputFileBig(file_id, part_count, file_name)
         else:

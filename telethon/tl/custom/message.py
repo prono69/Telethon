@@ -509,9 +509,10 @@ class Message(ChatGetter, SenderGetter, TLObject):
         """
         The :tl:`WebPage` media in this message, if any.
         """
-        if isinstance(self.media, types.MessageMediaWebPage):
-            if isinstance(self.media.webpage, types.WebPage):
-                return self.media.webpage
+        if isinstance(self.media, types.MessageMediaWebPage) and isinstance(
+            self.media.webpage, types.WebPage
+        ):
+            return self.media.webpage
 
     @property
     def audio(self):
@@ -691,10 +692,9 @@ class Message(ChatGetter, SenderGetter, TLObject):
     def message_link(self):
         """message link"""
         if hasattr(self.chat, "username") and self.chat.username:
-            out = f"https://t.me/{self.chat.username}/{self.id}"
+            return f"https://t.me/{self.chat.username}/{self.id}"
         else:
-            out = f"https://t.me/c/{self.chat.id}/{self.id}"
-        return out
+            return f"https://t.me/c/{self.chat.id}/{self.id}"
 
     # endregion Public Properties
 
@@ -1016,14 +1016,14 @@ class Message(ChatGetter, SenderGetter, TLObject):
                         return [answers[idx].option for idx in i]
                     return [answers[i].option]
                 if text is not None:
-                    if callable(text):
-                        for answer in answers:
-                            if text(answer.text):
-                                return [answer.option]
-                    else:
-                        for answer in answers:
-                            if answer.text == text:
-                                return [answer.option]
+                    for answer in answers:
+                        if (
+                            callable(text)
+                            and text(answer.text)
+                            or not callable(text)
+                            and answer.text == text
+                        ):
+                            return [answer.option]
                     return
 
                 if filter is not None:
@@ -1047,14 +1047,14 @@ class Message(ChatGetter, SenderGetter, TLObject):
         def find_button():
             nonlocal i
             if text is not None:
-                if callable(text):
-                    for button in self._buttons_flat:
-                        if text(button.text):
-                            return button
-                else:
-                    for button in self._buttons_flat:
-                        if button.text == text:
-                            return button
+                for button in self._buttons_flat:
+                    if (
+                        callable(text)
+                        and text(button.text)
+                        or not callable(text)
+                        and button.text == text
+                    ):
+                        return button
                 return
 
             if filter is not None:

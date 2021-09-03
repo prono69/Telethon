@@ -69,10 +69,10 @@ class CallbackQuery(EventBuilder):
         if isinstance(pattern, str):
             pattern = pattern.encode("utf-8")
 
-        match = data if data else pattern
+        match = data or pattern
 
         if isinstance(match, bytes):
-            self.match = data if data else re.compile(pattern).match
+            self.match = data or re.compile(pattern).match
         elif not match or callable(match):
             self.match = match
         elif hasattr(match, "match") and callable(match.match):
@@ -328,11 +328,10 @@ class CallbackQuery(EventBuilder):
                 return await self._client.edit_message(
                     self.query.msg_id, *args, **kwargs
                 )
-            else:
-                message = await self.get_message()
-                return await self._client.edit_message(
-                    await self.get_input_chat(), message, *args, **kwargs
-                )
+            message = await self.get_message()
+            return await self._client.edit_message(
+                await self.get_input_chat(), message, *args, **kwargs
+            )
 
         async def delete(self, *args, **kwargs):
             """

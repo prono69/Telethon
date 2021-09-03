@@ -113,7 +113,7 @@ def retry_range(retries, force_retry=True):
 
     # We need at least one iteration even if the retries are 0
     # when force_retry is True.
-    if force_retry and not (retries is None or retries < 0):
+    if force_retry and retries is not None and retries >= 0:
         retries += 1
 
     attempt = 0
@@ -179,11 +179,7 @@ def _sync_enter(self):
     Helps to cut boilerplate on async context
     managers that offer synchronous variants.
     """
-    if hasattr(self, "loop"):
-        loop = self.loop
-    else:
-        loop = self._client.loop
-
+    loop = self.loop if hasattr(self, "loop") else self._client.loop
     if loop.is_running():
         raise RuntimeError(
             'You must use "async with" if the event loop '
@@ -194,11 +190,7 @@ def _sync_enter(self):
 
 
 def _sync_exit(self, *args):
-    if hasattr(self, "loop"):
-        loop = self.loop
-    else:
-        loop = self._client.loop
-
+    loop = self.loop if hasattr(self, "loop") else self._client.loop
     return loop.run_until_complete(self.__aexit__(*args))
 
 

@@ -307,9 +307,8 @@ def check_prime_and_good(prime_bytes: bytes, g: int):
         )
     )
 
-    if good_prime == prime_bytes:
-        if g in (3, 4, 5, 7):
-            return  # It's good
+    if good_prime == prime_bytes and g in {3, 4, 5, 7}:
+        return  # It's good
 
     check_prime_and_good_check(int.from_bytes(prime_bytes, "big"), g)
 
@@ -340,14 +339,12 @@ def is_good_mod_exp_first(modexp, prime) -> bool:
     diff = prime - modexp
     min_diff_bits_count = 2048 - 64
     max_mod_exp_size = 256
-    if (
-        diff < 0
-        or diff.bit_length() < min_diff_bits_count
-        or modexp.bit_length() < min_diff_bits_count
-        or (modexp.bit_length() + 7) // 8 > max_mod_exp_size
-    ):
-        return False
-    return True
+    return (
+        diff >= 0
+        and diff.bit_length() >= min_diff_bits_count
+        and modexp.bit_length() >= min_diff_bits_count
+        and (modexp.bit_length() + 7) // 8 <= max_mod_exp_size
+    )
 
 
 def xor(a: bytes, b: bytes) -> bytes:
