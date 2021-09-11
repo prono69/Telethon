@@ -215,7 +215,9 @@ class ChatAction(EventBuilder):
             self.new_score = new_score
             self.unpin = not pin
             self.emoticon = emoticon
-            self.chat_theme = bool(emoticon)
+            # below is line done, so that emoticon="" also get considered as chat theme update.
+            # and can be way to trace Chat Theme Disabled.
+            self.chat_theme = True if emoticon != None else False
 
         def _set_client(self, client):
             super()._set_client(client)
