@@ -215,7 +215,7 @@ class ChatAction(EventBuilder):
             self.new_score = new_score
             self.unpin = not pin
             self.emoticon = emoticon
-            self.chat_theme = True if not isinstance(emoticon, None) else False
+            self.chat_theme = bool(emoticon)
 
         def _set_client(self, client):
             super()._set_client(client)
