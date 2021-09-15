@@ -43,9 +43,9 @@ class StringSession(MemorySession):
             if any(key):
                 self._auth_key = AuthKey(key)
 
-    @staticmethod
+    """@staticmethod
     def encode(x: bytes) -> str:
-        return base64.urlsafe_b64encode(x).decode("ascii")
+        return base64.urlsafe_b64encode(x).decode("ascii")"""
 
     @staticmethod
     def decode(x: str) -> bytes:
@@ -55,8 +55,8 @@ class StringSession(MemorySession):
         if not self.auth_key:
             return ""
 
-        ip = ipaddress.ip_address(self.server_address).packed
-        """return CURRENT_VERSION + StringSession.encode(
+        """ ip = ipaddress.ip_address(self.server_address).packed
+        return CURRENT_VERSION + StringSession.encode(
             struct.pack(
                 _STRUCT_PREFORMAT.format(len(ip)),
                 self.dc_id,
