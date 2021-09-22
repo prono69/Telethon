@@ -1132,7 +1132,7 @@ class Message(ChatGetter, SenderGetter, TLObject):
         """
         if self._client:
             return await self._client(
-                functions.messages.GetMessageReadParticipants(
+                functions.messages.GetMessageReadParticipantsRequest(
                     await self.get_input_chat(), 
                     self.id
                 )
