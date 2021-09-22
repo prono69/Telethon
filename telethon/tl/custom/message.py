@@ -1126,6 +1126,17 @@ class Message(ChatGetter, SenderGetter, TLObject):
                 await self.get_input_chat(), self.id
             )
 
+    async def get_reads(self):
+        """
+        Get message reads
+        """
+        if self._client:
+            return await self._client(
+                functions.messages.GetMessageReadParticipants(
+                    await self.get_input_chat(), 
+                    self.id
+                )
+            )
     # endregion Public Methods
 
     # region Private Methods
