@@ -1,7 +1,7 @@
 import asyncio
 import collections
 import struct
-
+from logging import WARNING
 from . import authenticator
 from ..extensions.messagepacker import MessagePacker
 from .mtprotoplainsender import MTProtoPlainSender
@@ -73,6 +73,7 @@ class MTProtoSender:
         self._connection = None
         self._loggers = loggers
         self._log = loggers[__name__]
+        self._log.setLevel(WARNING)
         self._retries = retries
         self._delay = delay
         self._auto_reconnect = auto_reconnect
