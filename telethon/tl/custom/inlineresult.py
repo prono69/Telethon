@@ -112,6 +112,7 @@ class InlineResult:
         clear_draft=False,
         hide_via=False,
         background=None,
+        schedule=None
     ):
         """
         Clicks this result and sends the associated `message`.
@@ -169,6 +170,7 @@ class InlineResult:
             clear_draft=clear_draft,
             hide_via=hide_via,
             reply_to_msg_id=reply_id,
+            schedule_date=schedule
         )
         return self._client._get_response_message(req, await self._client(req), entity)
 
