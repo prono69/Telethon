@@ -893,6 +893,8 @@ class MessageMethods:
             from_peer: 'hints.EntityLike' = None,
             *,
             background: bool = None,
+            drop_author: bool = None,
+            drop_caption: bool = None,
             with_my_score: bool = None,
             silent: bool = None,
             as_album: bool = None,
@@ -1007,6 +1009,8 @@ class MessageMethods:
                 to_peer=entity,
                 silent=silent,
                 background=background,
+                drop_author=drop_author,
+                drop_media_captions=drop_caption,
                 with_my_score=with_my_score,
                 schedule_date=schedule
             )
