@@ -176,6 +176,8 @@ class NewMessage(EventBuilder):
         ):
             return
 
+        if callable(self.from_users):
+            self.from_users = self.from_users()
         if (
             self.from_users is not None
             and event.message.sender_id not in self.from_users
