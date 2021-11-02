@@ -110,11 +110,11 @@ class NewMessage(EventBuilder):
             )
         )
 
-    async def _resolve(self, client):
-        await super()._resolve(client)
-        if callable(self.from_users):
-            self.from_users = self.from_users()
-        self.from_users = await _into_id_set(client, self.from_users)
+#    async def _resolve(self, client):
+#        await super()._resolve(client)
+#        if callable(self.from_users):
+#            self.from_users = self.from_users()
+#        self.from_users = await _into_id_set(client, self.from_users)
 
     @classmethod
     def build(cls, update, others=None, self_id=None):
@@ -178,8 +178,8 @@ class NewMessage(EventBuilder):
         ):
             return
 
-#        if callable(self.from_users):
-#            self.from_users = self.from_users()
+        if callable(self.from_users):
+            self.from_users = self.from_users()
         if (
             self.from_users is not None
             and event.message.sender_id not in self.from_users
