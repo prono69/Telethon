@@ -1265,7 +1265,6 @@ def pack_bot_file_id(file):
         if not size:
             return None
 
-        size = size.location
         return _encode_telegram_base64(_rle_encode(struct.pack(
             '<iiqqqqib', 2, file.dc_id, file.id, file.access_hash,
             000000000,0,000000, 2  # 0 = old `secret`
@@ -1520,8 +1519,7 @@ class AsyncClassWrapper:
 
         if callable(w):
             return wrapper
-        else:
-            return w
+        return w
 
 
 def stripped_photo_to_jpg(stripped):
@@ -1555,5 +1553,4 @@ def _photo_size_byte_count(size):
         return 0
     elif isinstance(size, types.PhotoSizeProgressive):
         return max(size.sizes)
-    else:
-        return None
+    return None
