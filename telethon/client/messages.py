@@ -602,6 +602,7 @@ class MessageMethods:
             entity: 'hints.EntityLike',
             message: 'hints.MessageLike' = '',
             *,
+            send_as: 'hints.EntityLike' = None,
             reply_to: 'typing.Union[int, types.Message]' = None,
             attributes: 'typing.Sequence[types.TypeDocumentAttribute]' = None,
             parse_mode: typing.Optional[str] = (),
@@ -800,7 +801,7 @@ class MessageMethods:
                 schedule=schedule, supports_streaming=supports_streaming,
                 formatting_entities=formatting_entities,
                 comment_to=comment_to, background=background, album=album,
-                allow_cache=allow_cache
+                allow_cache=allow_cache, send_as=send_as
             )
 
         entity = await self.get_input_entity(entity)
@@ -827,7 +828,8 @@ class MessageMethods:
                     reply_to=reply_to,
                     buttons=markup,
                     formatting_entities=message.entities,
-                    schedule=schedule
+                    schedule=schedule,
+                    send_as=send_as
                 )
 
             request = functions.messages.SendMessageRequest(
@@ -841,7 +843,8 @@ class MessageMethods:
                 clear_draft=clear_draft,
                 no_webpage=not isinstance(
                     message.media, types.MessageMediaWebPage),
-                schedule_date=schedule
+                schedule_date=schedule, 
+                send_as=send_as,
             )
             message = message.message
         else:
@@ -865,7 +868,8 @@ class MessageMethods:
                 silent=silent,
                 background=background,
                 reply_markup=self.build_reply_markup(buttons),
-                schedule_date=schedule
+                schedule_date=schedule,
+                send_as=send_as
             )
 
         result = await self(request)
@@ -892,6 +896,7 @@ class MessageMethods:
             messages: 'typing.Union[hints.MessageIDLike, typing.Sequence[hints.MessageIDLike]]',
             from_peer: 'hints.EntityLike' = None,
             *,
+            send_as: 'hints.EntityLike' = None,
             background: bool = None,
             drop_author: bool = None,
             drop_caption: bool = None,
@@ -1012,7 +1017,8 @@ class MessageMethods:
                 drop_author=drop_author,
                 drop_media_captions=drop_caption,
                 with_my_score=with_my_score,
-                schedule_date=schedule
+                schedule_date=schedule,
+                send_as=send_as
             )
             result = await self(req)
             sent.extend(self._get_response_message(req, result, entity))
