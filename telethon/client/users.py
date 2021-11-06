@@ -151,6 +151,9 @@ class UserMethods:
 
     # region Public methods
 
+    async def get_SendAs_chats(self, peer):
+        return await self(functions.channels.GetSendAsRequest(peer))
+
     async def get_me(
         self: "TelegramClient", input_peer: bool = False
     ) -> "typing.Union[types.User, types.InputPeerUser]":
