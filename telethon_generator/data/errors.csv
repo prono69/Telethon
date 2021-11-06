@@ -66,6 +66,7 @@ CHAT_ABOUT_TOO_LONG,400,Chat about too long
 CHAT_ADMIN_INVITE_REQUIRED,403,You do not have the rights to do this
 CHAT_ADMIN_REQUIRED,400,"Chat admin privileges are required to do that in the specified chat (for example, to send a message in a channel which is not yours), or invalid permissions used for the channel or group"
 CHAT_FORBIDDEN,403,You cannot write in this chat
+CHAT_FORWARDS_RESTRICTED,400,Forwards are restricted in this chat.
 CHAT_ID_EMPTY,400,The provided chat ID is empty
 CHAT_ID_INVALID,400,"Invalid object ID for a chat. Make sure to pass the right types, for instance making sure that the request is designed for chats (not channels/megagroups) or otherwise look for a different one more suited\nAn example working with a megagroup and AddChatUserRequest, it will fail because megagroups are channels. Use InviteToChannelRequest instead"
 CHAT_INVALID,400,The chat is invalid for this request
@@ -317,6 +318,7 @@ SCHEDULE_TOO_MUCH,400,You cannot schedule more messages in this chat (last known
 SEARCH_QUERY_EMPTY,400,The search query is empty
 SECONDS_INVALID,400,"Slow mode only supports certain values (e.g. 0, 10s, 30s, 1m, 5m, 15m and 1h)"
 SEND_MESSAGE_MEDIA_INVALID,400,The message media was invalid or not specified
+SEND_AS_PEER_INVALID,400,
 SEND_MESSAGE_TYPE_INVALID,400,The message type is invalid
 SENSITIVE_CHANGE_FORBIDDEN,403,Your sensitive content settings cannot be changed at this time
 SESSION_EXPIRED,401,The authorization has expired
