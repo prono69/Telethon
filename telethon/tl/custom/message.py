@@ -418,6 +418,15 @@ class Message(ChatGetter, SenderGetter, TLObject):
 
         return self._buttons
 
+    @property
+    def from_linked_chat(self):
+        if self._linked_chat:
+            return self._linked_chat
+        if self.fwd_from and isinstance(self.from_id, types.PeerChannel) and self.fwd_from.from_id == self.from_id:
+            chat = utils.get_peer_id(self.fwd_from)
+            self._linked_chat = chat
+            return chat
+
     async def get_buttons(self):
         """
         Returns `buttons` when that property fails (this is rarely needed).
