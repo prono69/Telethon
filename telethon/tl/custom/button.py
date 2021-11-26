@@ -53,7 +53,6 @@ class Button:
             types.KeyboardButtonCallback,
             types.KeyboardButtonGame,
             types.KeyboardButtonSwitchInline,
-            types.KeyboardButtonUserProfile,
             types.KeyboardButtonUrl,
             types.InputKeyboardButtonUrlAuth
         ))
