@@ -887,6 +887,12 @@ class Message(ChatGetter, SenderGetter, TLObject):
             # refetched for a fresh file reference.
             return await self._client.download_media(self, *args, **kwargs)
 
+    async def stop(self):
+        if self.poll:
+            input_file = utils.get_input_media(self.media)
+            input_file.poll.closed = True
+            await self.edit(file=input_file)
+
     async def click(
         self,
         i=None,
