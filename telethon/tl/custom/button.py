@@ -54,7 +54,7 @@ class Button:
             types.KeyboardButtonGame,
             types.KeyboardButtonSwitchInline,
             types.KeyboardButtonUrl,
-            types.InputKeyboardButtonUrlAuth
+            types.InputKeyboardButtonUrlAuth,
             types.InputKeyboardButtonUserProfile
         ))
 
