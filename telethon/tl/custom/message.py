@@ -192,6 +192,7 @@ class Message(ChatGetter, SenderGetter, TLObject):
         pinned: Optional[bool] = None,
         restriction_reason: Optional[types.TypeRestrictionReason] = None,
         forwards: Optional[int] = None,
+        noforwards: bool = None,
         replies: Optional[types.TypeMessageReplies] = None,
         # For MessageAction (mandatory)
         action: Optional[types.TypeMessageAction] = None,
@@ -218,6 +219,7 @@ class Message(ChatGetter, SenderGetter, TLObject):
         self.entities = entities
         self.views = views
         self.forwards = forwards
+        self.noforwards = noforwards
         self.replies = replies
         self.edit_date = edit_date
         self.pinned = pinned
