@@ -1290,7 +1290,7 @@ class MessageMethods:
             ty = helpers._EntityType.USER
 
         if from_user:
-            return await self(functions.channels.DeleteUserHistoryRequest(entity, from_user))
+            return await self(functions.channels.DeleteParticipantHistoryRequest(entity, from_user))
 
         if is_scheduled:
             return await self(
