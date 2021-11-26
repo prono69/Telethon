@@ -55,6 +55,7 @@ class Button:
             types.KeyboardButtonSwitchInline,
             types.KeyboardButtonUrl,
             types.InputKeyboardButtonUrlAuth
+            types.InputKeyboardButtonUserProfile
         ))
 
     @staticmethod
@@ -164,6 +165,10 @@ class Button:
             request_write_access=write_access,
             fwd_text=fwd_text
         )
+
+    @staticmethod
+    def mention(text, user_id):
+        return types.InputKeyboardButtonUserProfile(text, user_id)
 
     @classmethod
     def text(cls, text, *, resize=None, single_use=None, selective=None):
