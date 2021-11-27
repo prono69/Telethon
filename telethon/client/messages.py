@@ -565,7 +565,7 @@ class MessageMethods:
                 kwargs['limit'] = None
             else:
                 kwargs['limit'] = 1
-        if entity and "/" in entity:
+        if isinstance(entity, str) and "/" in entity:
             split = entity.split("/")
             try:
                 kwargs["entity"]=int(split[-2]) if split[-2].isdigit() else split[-2]
