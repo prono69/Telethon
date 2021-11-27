@@ -51,6 +51,7 @@ BUTTON_DATA_INVALID,400,The provided button data is invalid
 BUTTON_TYPE_INVALID,400,The type of one of the buttons you provided is invalid
 BUTTON_URL_INVALID,400,Button URL invalid
 BUTTON_USER_INVALID,400,
+BUTTON_USER_PRIVACY_RESTRICTED,400,
 CALL_ALREADY_ACCEPTED,400,The call was already accepted
 CALL_ALREADY_DECLINED,400,The call was already declined
 CALL_OCCUPY_FAILED,500,The call failed because the user is already making another call
