@@ -529,7 +529,7 @@ class MessageMethods:
             scheduled=scheduled
         )
 
-    async def get_messages(self: 'TelegramClient', *args, **kwargs) -> 'hints.TotalList':
+    async def get_messages(self: 'TelegramClient', entity, *args, **kwargs) -> 'hints.TotalList':
         """
         Same as `iter_messages()`, but returns a
         `TotalList <telethon.helpers.TotalList>` instead.
@@ -565,14 +565,15 @@ class MessageMethods:
                 kwargs['limit'] = None
             else:
                 kwargs['limit'] = 1
-        entity = kwargs.get("entity")
         if entity and "/" in entity:
             split = entity.split("/")
             try:
                 kwargs["entity"]=int(split[-2]) if split[-2].isdigit() else split[-2]
                 kwargs.update({"ids":int(split[-1])})
             except (KeyError, IndexError):
-                pass
+                kwargs.update({"entity":entity})
+        else:
+            kwargs.update({"entity":entity})
         it = self.iter_messages(*args, **kwargs)
 
         ids = kwargs.get('ids')
