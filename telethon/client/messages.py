@@ -569,7 +569,7 @@ class MessageMethods:
         if entity and "/" in entity:
             split = entity.split("/")
             try:
-                kwargs["entity"]=int(split[-2]) if split[-2].isdigits() else split[-2]
+                kwargs["entity"]=int(split[-2]) if split[-2].isdigit() else split[-2]
                 kwargs.update({"ids":int(split[-1])})
             except (KeyError, IndexError):
                 pass
