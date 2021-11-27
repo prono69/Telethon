@@ -1219,9 +1219,6 @@ class ChatMethods:
             )
 
         user = await self.get_input_entity(user)
-        ty = helpers._entity_type(user)
-        if ty != helpers._EntityType.USER:
-            raise ValueError("You must pass a user entity")
 
         if isinstance(user, types.InputPeerSelf):
             raise ValueError("You cannot restrict yourself")
@@ -1271,9 +1268,6 @@ class ChatMethods:
         """
         entity = await self.get_input_entity(entity)
         user = await self.get_input_entity(user)
-        if helpers._entity_type(user) != helpers._EntityType.USER:
-            raise ValueError("You must pass a user entity")
-
         ty = helpers._entity_type(entity)
         if ty == helpers._EntityType.CHAT:
             resp = await self(
