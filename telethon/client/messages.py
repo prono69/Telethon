@@ -571,8 +571,8 @@ class MessageMethods:
                 entity =int(split[-2]) if split[-2].isdigit() else split[-2]
                 ids = split[-1].replace("?single", "")
                 if "?comment=" in ids:
-                    ids = int(ids.split("?")[0])
-                    entity, ids = await self._get_comment_data(entity, ids)
+                    ids = int(ids.split("=")[-1])
+                    entity = (await self(functions.channels.GetFullChannelRequest(entity))).full_chat.linked_chat_id
                 kwargs.update({"entity":entity, "ids":ids})
             except (KeyError, IndexError):
                 kwargs.update({"entity":entity})
