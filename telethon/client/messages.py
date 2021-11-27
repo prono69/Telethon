@@ -565,7 +565,14 @@ class MessageMethods:
                 kwargs['limit'] = None
             else:
                 kwargs['limit'] = 1
-
+        entity = kwargs.get("entity")
+        if entity and "/" in entity:
+            split = entity.split("/")
+            try:
+                kwargs["entity"]=int(split[-2]) if split[-2].isdigits() else split[-2]
+                kwargs.update({"ids":int(split[-1])})
+            except (KeyError, IndexError):
+                pass
         it = self.iter_messages(*args, **kwargs)
 
         ids = kwargs.get('ids')
