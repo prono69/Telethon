@@ -568,8 +568,12 @@ class MessageMethods:
         if isinstance(entity, str) and "/" in entity:
             split = entity.split("/")
             try:
-                kwargs["entity"]=int(split[-2]) if split[-2].isdigit() else split[-2]
-                kwargs.update({"ids":int(split[-1].split("?")[-1])})
+                entity =int(split[-2]) if split[-2].isdigit() else split[-2]
+                ids = split[-1].replace("?single", "")
+                if "?comment=" in ids:
+                    ids = int(ids.split("?")[0])
+                    entity, ids = await self._get_comment_data(entity, ids)
+                kwargs.update({"entity":entity, "ids":ids})
             except (KeyError, IndexError):
                 kwargs.update({"entity":entity})
         else:
