@@ -46,6 +46,7 @@ class User:
         self.photo = photo
         self.status = status
         self.bot_info_version = bot_info_version
+        self.restriction_reason = restriction_reason
         self.bot_inline_placeholder = bot_inline_placeholder
         self.lang_code = lang_code
 
