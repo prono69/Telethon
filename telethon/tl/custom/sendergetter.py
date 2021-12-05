@@ -27,10 +27,7 @@ class SenderGetter(abc.ABC):
 
         If you're using `telethon.events`, use `get_sender()` instead.
         """
-        sender = self._sender
-        if self._client:
-            sender._set_client(self._client)
-        return sender
+        return self._sender
 
     async def get_sender(self):
         """
