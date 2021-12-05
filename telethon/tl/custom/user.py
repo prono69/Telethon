@@ -47,7 +47,7 @@ class User:
         self.status = status
         self.bot_info_version = bot_info_version
         self.bot_inline_placeholder = bot_inline_placeholder
-        self.lang_code = self.lang_code
+        self.lang_code = lang_code
 
 
     def _set_client(self, client):
