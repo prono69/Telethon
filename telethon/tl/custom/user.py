@@ -5,6 +5,7 @@ class User:
     def __init__(self,
         id:int=None,
         is_self:bool=None,
+        contact:bool=None,
         mutual_contact:bool=None,
         deleted:bool=None,
         bot:bool=None,
@@ -21,6 +22,7 @@ class User:
         self._client = None
         self.id = id
         self.is_self = is_self
+        self.contact = contact
         self.mutual_contact = mutual_contact
         self.deleted = deleted
         self.bot = bot
