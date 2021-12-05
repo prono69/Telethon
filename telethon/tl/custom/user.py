@@ -54,5 +54,10 @@ class User:
     def _set_client(self, client):
         self._client = client
 
-    async def block():
-        pass
+    async def block(self):
+        if self._client:
+            return await self._client(functions.contacts.BlockRequest(self.id))
+
+    async def unblock(self):
+        if self._client:
+            return await self._client(functions.contacts.UnblockRequest(self.id))
