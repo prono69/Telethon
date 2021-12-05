@@ -26,7 +26,7 @@ class User:
         self.mutual_contact = mutual_contact
         self.deleted = deleted
         self.bot = bot
-        self.bot_chat_nohistory = None
+        self.bot_chat_history = bot_chat_history
         self.bot_nochats = bot_nochats
         self.verified = verified
         self.restricted = restricted
