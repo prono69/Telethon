@@ -20,7 +20,7 @@ class User:
         phone=None, photo=None, status=None, bot_info_version=None, restriction_reason=[],
         bot_inline_placeholder=None, lang_code=None):
         self._client = None
-        self.id = id
+        self._id = id
         self.is_self = is_self
         self.contact = contact
         self.mutual_contact = mutual_contact
@@ -53,6 +53,10 @@ class User:
 
     def _set_client(self, client):
         self._client = client
+
+    @property
+    def id(self):
+        return self._id
 
     async def block(self):
         if self._client:
