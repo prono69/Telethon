@@ -1349,18 +1349,10 @@ class ChatMethods:
         entity = await self.get_entity(entity)
 
         if not user:
-            if isinstance(entity, types.Channel):
-                FullChat = await self(functions.channels.GetFullChannelRequest(entity))
-            elif isinstance(entity, types.Chat):
-                FullChat = await self(functions.messages.GetFullChatRequest(entity))
-            else:
-                return
-            return FullChat.chats[0].default_banned_rights
+            return (await self.get_entity(entity)).default_banned_rights
 
         entity = await self.get_input_entity(entity)
         user = await self.get_input_entity(user)
-        if helpers._entity_type(user) != helpers._EntityType.USER:
-            raise ValueError("You must pass a user entity")
         if helpers._entity_type(entity) == helpers._EntityType.CHANNEL:
             participant = await self(
                 functions.channels.GetParticipantRequest(entity, user)
