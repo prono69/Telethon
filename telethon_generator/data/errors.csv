@@ -347,6 +347,7 @@ STATS_MIGRATE_X,303,The channel statistics must be fetched from DC {dc}
 STICKERSET_INVALID,400,The provided sticker set is invalid
 STICKERSET_OWNER_ANONYMOUS,406,This sticker set can't be used as the group's official stickers because it was created by one of its anonymous admins
 STICKERS_EMPTY,400,No sticker provided
+STICKERS_TOO_MUCH,400,
 STICKER_DOCUMENT_INVALID,400,"The sticker file was invalid (this file has failed Telegram internal checks, make sure to use the correct format and comply with https://core.telegram.org/animated_stickers)"
 STICKER_EMOJI_INVALID,400,Sticker emoji invalid
 STICKER_FILE_INVALID,400,Sticker file invalid
