@@ -76,6 +76,8 @@ class ChatAction(EventBuilder):
                 return cls.Event(msg,
                                  added_by=added_by,
                                  users=action.users)
+            elif isinstance(action, types.MessageActionChatJoinedByRequest):
+                return cls.Event(msg, from_request=True, users=msg.from_id)
             elif isinstance(action, types.MessageActionChatDeleteUser):
                 return cls.Event(msg,
                                  kicked_by=utils.get_peer_id(msg.from_id) if msg.from_id else True,
@@ -162,7 +164,7 @@ class ChatAction(EventBuilder):
         def __init__(self, where, new_photo=None,
                      added_by=None, kicked_by=None, created=None,
                      users=None, new_title=None, pin_ids=None, pin=None, new_score=None,
-                     emoticon=None):
+                     emoticon=None, from_request=None):
             if isinstance(where, types.MessageService):
                 self.action_message = where
                 where = where.peer_id
@@ -183,10 +185,11 @@ class ChatAction(EventBuilder):
 
             self._added_by = None
             self._kicked_by = None
+            self.from_request = from_request
             self.user_added = self.user_joined = self.user_left = \
                 self.user_kicked = self.unpin = False
 
-            if added_by is True:
+            if added_by is True or from_request is True:
                 self.user_joined = True
             elif added_by:
                 self.user_added = True
