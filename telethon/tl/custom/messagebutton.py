@@ -155,3 +155,5 @@ class MessageButton:
                 )
 
             return await self._client.send_file(self._chat, share_geo)
+        elif isinstance(self.button, types.KeyboardButtonUserProfile):
+            return await self._client.get_entity(self.button.user_id)
