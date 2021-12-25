@@ -1,17 +1,18 @@
 import abc
 import asyncio
 import warnings
-
+import logging
 from .. import utils
 from ..tl import TLObject, types
 from ..tl.custom.chatgetter import ChatGetter
 
+logger = logging.getLogger(__name__)
 
 async def _into_id_set(client, chats):
     """Helper util to turn the input chat or chats into a set of IDs."""
     if chats is None:
         return None
-
+    logger.debug(f"got {chats} for id changing...")
     if not utils.is_list_like(chats):
         chats = (chats,)
 
