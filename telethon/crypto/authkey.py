@@ -12,6 +12,7 @@ class AuthKey:
     Represents an authorization key, used to encrypt and decrypt
     messages sent to Telegram's data centers.
     """
+    __slots__ = []
 
     def __init__(self, data):
         """
