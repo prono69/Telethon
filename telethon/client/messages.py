@@ -1195,6 +1195,7 @@ class MessageMethods:
             if not exported:
                 return await self(request)
 
+            sender = None
             try:
                 sender = await self._borrow_exported_sender(entity.dc_id)
                 try:
@@ -1219,7 +1220,8 @@ class MessageMethods:
                         link_preview=link_preview,
                     )
             finally:
-                await self._return_exported_sender(sender)
+                if sender:
+                    await self._return_exported_sender(sender)
         entity = await self.get_input_entity(entity)
         request = functions.messages.EditMessageRequest(
             peer=entity,
