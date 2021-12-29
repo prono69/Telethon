@@ -70,7 +70,7 @@ class User:
     async def comman_chats(self, max_id=0, limit=0):
         if self._client:
             chat = await self._client(functions.messages.GetCommonChatsRequest(self.id, max_id=max_id, limit=limit))
-            if not isinstance(chat, types.ChatSlice):
+            if not isinstance(chat, types.ChatsSlice):
                 chat.count = len(chat.chats)
             return chat
 
@@ -91,3 +91,7 @@ class User:
     async def send(self, *args, **kwargs):
         if self._client:
             return await self._client.send_message(self.id, *args, **kwargs)
+
+    async def get_photos(self, *args, **kwargs):
+        if self._client:
+            return await self._client.get_profile_photos(self.id, *args, **kwargs)
