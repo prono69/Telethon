@@ -1,5 +1,5 @@
 from .. import types, functions
-
+from ... import utils 
 
 class User:
     def __init__(self,
@@ -57,6 +57,10 @@ class User:
     @property
     def id(self):
         return self._id
+
+    @property
+    def mention(self):
+        return f"[{utils.get_display_name(self)}](tg://user?id={self.id})"
 
     async def block(self):
         if self._client:
