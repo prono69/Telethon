@@ -1,4 +1,5 @@
 import abc
+from ..types import User
 
 
 class SenderGetter(abc.ABC):
@@ -27,6 +28,7 @@ class SenderGetter(abc.ABC):
 
         If you're using `telethon.events`, use `get_sender()` instead.
         """
+        self._sender = self._process(self._sender)
         return self._sender
 
     async def get_sender(self):
@@ -52,6 +54,7 @@ class SenderGetter(abc.ABC):
                 self._sender = await self._client.get_entity(self._input_sender)
             except ValueError:
                 await self._refetch_sender()
+        self._sender = self._process(self.sender)
         return self._sender
 
     @property
@@ -95,3 +98,8 @@ class SenderGetter(abc.ABC):
         """
         Re-fetches sender information through other means.
         """
+
+    def _process(self, sender):
+        if self._client and isinstance(sender, User):
+            sender._set_client(self._client)
+        return sender
