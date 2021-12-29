@@ -70,6 +70,6 @@ class User:
         if self._client:
             return await self._client(functions.contacts.UnblockRequest(self.id))
 
-    async def send(self, *args, *kwargs):
+    async def send(self, *args, **kwargs):
         if self._client:
-            await self._client.send_message(self.id, *args, **kwargs)
+            return await self._client.send_message(self.id, *args, **kwargs)
