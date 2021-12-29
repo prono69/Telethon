@@ -70,7 +70,7 @@ class User:
     async def comman_chats(self, max_id=0, limit=0):
         if self._client:
             chat = await self._client(functions.messages.GetCommonChatsRequest(self.id, max_id=max_id, limit=limit))
-            if not isinstance(chat, types.ChatsSlice):
+            if not isinstance(chat, types.messages.ChatsSlice):
                 chat.count = len(chat.chats)
             return chat
 
