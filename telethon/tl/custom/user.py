@@ -49,6 +49,7 @@ class User:
         self.restriction_reason = restriction_reason
         self.bot_inline_placeholder = bot_inline_placeholder
         self.lang_code = lang_code
+        self._fulluser = None
 
 
     def _set_client(self, client):
@@ -61,6 +62,23 @@ class User:
     @property
     def mention(self):
         return f"[{utils.get_display_name(self)}](tg://user?id={self.id})"
+
+    @property
+    def full_user(self):
+        return self._full_user
+
+    async def comman_chats(self, max_id=0, limit=0):
+        if self._client:
+            chat = await self._client(functions.messages.GetCommonChatsRequest(self.id, max_id=max_id, limit=limit))
+            if not isinstance(chat, types.ChatSlice):
+                chat.count = len(chat.chats)
+            return chat
+
+    async def get_fulluser(self):
+        if self._client:
+            full_user = await self._client(functions.users.GetFullUserRequest(self.id))
+            self._full_user = full_user.full_user
+            return full_user
 
     async def block(self):
         if self._client:
