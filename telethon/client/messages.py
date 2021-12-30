@@ -629,6 +629,7 @@ class MessageMethods:
             album: bool = False,
             allow_cache: bool = False,
             background: bool = None,
+            noforwards: bool = False,
             supports_streaming: bool = False,
             schedule: 'hints.DateLike' = None,
             comment_to: 'typing.Union[int, types.Message]' = None
@@ -813,7 +814,7 @@ class MessageMethods:
                 schedule=schedule, supports_streaming=supports_streaming,
                 formatting_entities=formatting_entities,
                 comment_to=comment_to, background=background, album=album,
-                allow_cache=allow_cache, send_as=send_as
+                allow_cache=allow_cache, send_as=send_as, noforwards=noforwards
             )
 
         entity = await self.get_input_entity(entity)
@@ -841,7 +842,7 @@ class MessageMethods:
                     buttons=markup,
                     formatting_entities=message.entities,
                     schedule=schedule,
-                    send_as=send_as
+                    send_as=send_as, noforwards=noforwards
                 )
 
             request = functions.messages.SendMessageRequest(
@@ -857,6 +858,7 @@ class MessageMethods:
                     message.media, types.MessageMediaWebPage),
                 schedule_date=schedule, 
                 send_as=send_as,
+                noforwards=noforwards
             )
             message = message.message
         else:
@@ -881,7 +883,7 @@ class MessageMethods:
                 background=background,
                 reply_markup=self.build_reply_markup(buttons),
                 schedule_date=schedule,
-                send_as=send_as
+                send_as=send_as, noforwards=noforwards
             )
 
         result = await self(request)
@@ -915,7 +917,8 @@ class MessageMethods:
             with_my_score: bool = None,
             silent: bool = None,
             as_album: bool = None,
-            schedule: 'hints.DateLike' = None
+            schedule: 'hints.DateLike' = None,
+            noforwards: bool = None
     ) -> 'typing.Sequence[types.Message]':
         """
         Forwards the given messages to the specified entity.
@@ -1030,7 +1033,8 @@ class MessageMethods:
                 drop_media_captions=drop_caption,
                 with_my_score=with_my_score,
                 schedule_date=schedule,
-                send_as=send_as
+                send_as=send_as,
+                noforwards=noforwards
             )
             result = await self(req)
             sent.extend(self._get_response_message(req, result, entity))

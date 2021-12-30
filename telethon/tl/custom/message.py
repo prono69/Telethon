@@ -196,6 +196,7 @@ class Message(ChatGetter, SenderGetter, TLObject):
         replies: Optional[types.TypeMessageReplies] = None,
         # For MessageAction (mandatory)
         action: Optional[types.TypeMessageAction] = None,
+        reactions=None
     ):
         # Common properties to messages, then to service (in the order they're defined in the `.tl`)
         self.out = bool(out)
@@ -228,6 +229,7 @@ class Message(ChatGetter, SenderGetter, TLObject):
         self.restriction_reason = restriction_reason
         self.ttl_period = ttl_period
         self.action = action
+        self.reactions = reactions
 
         # Convenient storage for custom functions
         # TODO This is becoming a bit of bloat
@@ -802,6 +804,10 @@ class Message(ChatGetter, SenderGetter, TLObject):
             return await self._client.send_message(
                 await self.get_input_chat(), *args, **kwargs
             )
+
+    async def react(self, reaction):
+        if self._client:
+            return await self._client(functions.messages.SendReactionRequest(self.chat_id, self.id, reaction))
 
     async def forward_to(self, *args, **kwargs):
         """

@@ -16,7 +16,8 @@ from ..tl.types import (
     MessageEntityTextUrl,
     MessageEntityMentionName,
     MessageEntityStrike,
-    MessageEntityUnderline
+    MessageEntityUnderline,
+    MessageEntitySpoiler
 )
 
 DEFAULT_DELIMITERS = {
@@ -25,7 +26,8 @@ DEFAULT_DELIMITERS = {
     "~~": MessageEntityStrike,
     "`": MessageEntityCode,
     "```": MessageEntityPre,
-    "==": MessageEntityUnderline
+    "==": MessageEntityUnderline,
+    "##": MessageEntitySpoiler
 }
 
 DEFAULT_URL_RE = re.compile(r"\[([\S\s]+?)\]\((.+?)\)")
