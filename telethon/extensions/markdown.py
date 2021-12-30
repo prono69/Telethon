@@ -27,7 +27,7 @@ DEFAULT_DELIMITERS = {
     "`": MessageEntityCode,
     "```": MessageEntityPre,
     "==": MessageEntityUnderline,
-    "##": MessageEntitySpoiler
+    "||": MessageEntitySpoiler
 }
 
 DEFAULT_URL_RE = re.compile(r"\[([\S\s]+?)\]\((.+?)\)")
