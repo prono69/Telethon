@@ -39,7 +39,12 @@ class StringSession(MemorySession):
                 _STRUCT_PREFORMAT.format(ip_len), StringSession.decode(string)
             )
 
-            self._server_address = ipaddress.ip_address(ip).compressed
+            if len(string) == 368:
+                # supporting gram js sessions
+                # generated from deploy.ultroid.tech or from any.. 
+                self._server_address = str(ip[2:])
+            else:
+                self._server_address = ipaddress.ip_address(ip).compressed
             if any(key):
                 self._auth_key = AuthKey(key)
 
