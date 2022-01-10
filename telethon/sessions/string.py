@@ -39,9 +39,9 @@ class StringSession(MemorySession):
                 _STRUCT_PREFORMAT.format(ip_len), StringSession.decode(string)
             )
 
-            if len(string) == 368:
+            if ip_len == 16:
                 # supporting gram js sessions
-                # generated from deploy.ultroid.tech or from any.. 
+                # generated from session.ultroid.tech or from any.. 
                 self._server_address = str(ip[2:])
             else:
                 self._server_address = ipaddress.ip_address(ip).compressed
