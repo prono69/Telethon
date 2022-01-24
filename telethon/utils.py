@@ -976,7 +976,7 @@ def get_peer(peer):
             return peer.peer
         elif isinstance(peer, types.ChannelFull):
             return types.PeerChannel(peer.id)
-        elif isinstance(peer, (None, types.UserEmpty)):
+        elif isinstance(peer, types.UserEmpty):
             return types.PeerUser(peer.id)
         elif isinstance(peer, types.ChatEmpty):
             return types.PeerChat(peer.id)
