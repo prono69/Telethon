@@ -566,7 +566,7 @@ inputStickerSetAnimatedEmoji#28703c8 = InputStickerSet;
 inputStickerSetDice#e67f520e emoticon:string = InputStickerSet;
 inputStickerSetAnimatedEmojiAnimations#cde3739 = InputStickerSet;
 
-stickerSet#d7df217a flags:# archived:flags.1?true official:flags.2?true masks:flags.3?true animated:flags.5?true installed_date:flags.0?int id:long access_hash:long title:string short_name:string thumbs:flags.4?Vector<PhotoSize> thumb_dc_id:flags.4?int thumb_version:flags.4?int count:int hash:int = StickerSet;
+stickerSet#d7df217a flags:# archived:flags.1?true official:flags.2?true masks:flags.3?true animated:flags.5?true videos:flags.6?true installed_date:flags.0?int id:long access_hash:long title:string short_name:string thumbs:flags.4?Vector<PhotoSize> thumb_dc_id:flags.4?int thumb_version:flags.4?int count:int hash:int = StickerSet;
 
 messages.stickerSet#b60a24a6 set:StickerSet packs:Vector<StickerPack> documents:Vector<Document> = messages.StickerSet;
 messages.stickerSetNotModified#d3f924eb = messages.StickerSet;
