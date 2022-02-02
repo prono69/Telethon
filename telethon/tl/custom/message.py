@@ -807,7 +807,7 @@ class Message(ChatGetter, SenderGetter, TLObject):
 
     async def react(self, reaction, big=True):
         if self._client:
-            return await self._client(functions.messages.SendReactionRequest(big, self.chat_id, self.id, reaction))
+            return await self._client(functions.messages.SendReactionRequest(big=big, peer=self.chat_id, msg_id=self.id, reaction=reaction))
 
     async def forward_to(self, *args, **kwargs):
         """
