@@ -1,7 +1,7 @@
-from .. import types, functions
+from .. import types, functions, TLObject
 from ... import password as pwd_mod
 from ...errors import BotResponseTimeoutError
-import webbrowser
+# import webbrowser
 
 
 class MessageButton:
@@ -61,6 +61,14 @@ class MessageButton:
         if isinstance(self.button, types.KeyboardButtonUrl):
             return self.button.url
 
+    def to_dict(self):
+        return self.button.to_dict()
+#        if not "url" in data:
+#            data.update({"url":None})
+#        return data
+
+    to_json = TLObject.to_json
+
     async def click(self, share_phone=None, share_geo=None, *, password=None):
         """
         Emulates the behaviour of clicking this button.
@@ -117,7 +125,7 @@ class MessageButton:
                 entity=self._chat if self.button.same_peer else None,
             )
         elif isinstance(self.button, types.KeyboardButtonUrl):
-            return webbrowser.open(self.button.url)
+            return self.button.url
         elif isinstance(self.button, types.KeyboardButtonGame):
             req = functions.messages.GetBotCallbackAnswerRequest(
                 peer=self._chat, msg_id=self._msg_id, game=True
